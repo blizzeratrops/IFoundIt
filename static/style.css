@@ -73,7 +73,7 @@ h4 {
     transition: box-shadow 0.5s;
 }
 .panel:hover {
-    box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+    box-shadow: 5px 0 40px rgba(0,0,0, .2);
 }
 .panel-footer .btn:hover {
     border: 1px solid #07b451;
