@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <!-- Theme Made By www.w3schools.com - No Copyright -->
-    <title>Bootstrap Theme Company Page</title>
+    <title>IFoundIt! how about you?</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../proyecto/static/style.css">
+    <link rel="stylesheet" href="../IFoundIt/static/style.css">
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
@@ -26,10 +26,9 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#about">ACERCA</a></li>
-                <li><a href="#services">ANUNCIOS</a></li>
-                <li><a href="#portfolio">TRENDING</a></li>
-                <li><a href="#pricing">INICIAR SESION</a></li>
+                <li><a href="#categorias">CATEGORIAS</a></li>
+                <li><a href="#trending">TRENDING</a></li>
+                <li><a href="#pricing">PRECIOS</a></li>
                 <li><a href="#contact">CONTACTO</a></li>
             </ul>
         </div>
@@ -49,54 +48,25 @@
     </form>
 </div>
 
-<!-- Container (About Section) -->
-<div id="about" class="container-fluid">
-    <div class="row">
-        <div class="col-sm-8">
-            <h2>About Company Page</h2><br>
-            <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            <br><button class="btn btn-default btn-lg">Get in Touch</button>
-        </div>
-        <div class="col-sm-4">
-            <span class="glyphicon glyphicon-signal logo"></span>
-        </div>
-    </div>
-</div>
-
-<div class="container-fluid bg-grey">
-    <div class="row">
-        <div class="col-sm-4">
-            <span class="glyphicon glyphicon-globe logo slideanim"></span>
-        </div>
-        <div class="col-sm-8">
-            <h2>Our Values</h2><br>
-            <h4><strong>MISSION:</strong> Our mission lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
-            <p><strong>VISION:</strong> Our vision Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        </div>
-    </div>
-</div>
-
 <!-- Container (Services Section) -->
-<div id="services" class="container-fluid text-center">
-    <h2>SERVICES</h2>
-    <h4>What we offer</h4>
+<div id="categorias" class="container-fluid text-center">
+    <h2>CATEGORIAS</h2>
+    <h4>¿Aun no sabe que buscar? Pruebe ver por categorias</h4>
     <br>
     <div class="row slideanim">
         <div class="col-sm-4">
             <span class="glyphicon glyphicon-off logo-small"></span>
-            <h4>POWER</h4>
+            <h4>Electronicos</h4>
             <p>Lorem ipsum dolor sit amet..</p>
         </div>
         <div class="col-sm-4">
             <span class="glyphicon glyphicon-heart logo-small"></span>
-            <h4>LOVE</h4>
+            <h4>Cuidado</h4>
             <p>Lorem ipsum dolor sit amet..</p>
         </div>
         <div class="col-sm-4">
             <span class="glyphicon glyphicon-lock logo-small"></span>
-            <h4>JOB DONE</h4>
+            <h4>Trabajos</h4>
             <p>Lorem ipsum dolor sit amet..</p>
         </div>
     </div>
@@ -104,18 +74,37 @@
     <div class="row slideanim">
         <div class="col-sm-4">
             <span class="glyphicon glyphicon-leaf logo-small"></span>
-            <h4>GREEN</h4>
+            <h4>Bio</h4>
             <p>Lorem ipsum dolor sit amet..</p>
         </div>
         <div class="col-sm-4">
             <span class="glyphicon glyphicon-certificate logo-small"></span>
-            <h4>CERTIFIED</h4>
+            <h4>Ofertas del momento</h4>
             <p>Lorem ipsum dolor sit amet..</p>
         </div>
         <div class="col-sm-4">
             <span class="glyphicon glyphicon-wrench logo-small"></span>
-            <h4 style="color:#303030;">HARD WORK</h4>
+            <h4 style="color:#303030;">Herramientas</h4>
             <p>Lorem ipsum dolor sit amet..</p>
+        </div>
+    </div>
+</div>
+
+<!-- Container (Trending Section) -->
+<div id="trending" class="container-fluid bg-grey">
+    <h2 class="text-center">Trends</h2>
+    <div class="row">
+        <div class="col-sm-4">
+            <img class="trend_img" src="https://s1.thcdn.com/productimg/600/600/11447563-1594485373406643.jpg" alt="trend#1"
+                 style="width:128px;height:128px;">
+        </div>
+        <div class="col-sm-4 trend_img">
+            <img class="trend_img" src="http://cdn.iphonehacks.com/wp-content/uploads/2016/09/iphone-7-unboxing-22.jpg" alt="trend#2"
+                 style="width:128px;height:128px;">
+        </div>
+        <div class="col-sm-4 trend_img">
+            <img class="trend_img" src="https://www1-lw.xda-cdn.com/files/2017/10/Google-Pixel-Buds-are-Assistant-Enabled-Earbuds-that-Cost-149.png" alt="trend#3"
+                 style="width:128px;height:128px;">
         </div>
     </div>
 </div>
@@ -215,23 +204,6 @@
         </div>
     </div>
 </div>
-
-<!-- Add Google Maps -->
-<div id="googleMap" style="height:400px;width:100%;"></div>
-<script>
-    function myMap() {
-        var myCenter = new google.maps.LatLng(41.878114, -87.629798);
-        var mapProp = {center:myCenter, zoom:12, scrollwheel:false, draggable:false, mapTypeId:google.maps.MapTypeId.ROADMAP};
-        var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-        var marker = new google.maps.Marker({position:myCenter});
-        marker.setMap(map);
-    }
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu-916DdpKAjTmJNIgngS6HL_kDIKU0aU&callback=myMap"></script>
-<!--
-To use this code on your website, get a free API key from Google.
-Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp
--->
 
 <footer class="container-fluid text-center">
     <a href="#myPage" title="To Top">
