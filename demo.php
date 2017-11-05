@@ -72,7 +72,7 @@
     </div>
     <br><br>
     <div class="row slideanim">
-        <div class="col-sm-4">
+        <div class="col-sm-4">,
             <span class="glyphicon glyphicon-leaf logo-small"></span>
             <h4>Bio</h4>
             <p>Lorem ipsum dolor sit amet..</p>
