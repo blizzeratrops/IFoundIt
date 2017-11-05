@@ -94,15 +94,15 @@
 <div id="trending" class="container-fluid bg-grey">
     <h2 class="text-center">Trends</h2>
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-4 anuncio_trend">
             <img class="trend_img" src="https://s1.thcdn.com/productimg/600/600/11447563-1594485373406643.jpg" alt="trend#1"
                  style="width:128px;height:128px;">
         </div>
-        <div class="col-sm-4 trend_img">
+        <div class="col-sm-4 anuncio_trend">
             <img class="trend_img" src="http://cdn.iphonehacks.com/wp-content/uploads/2016/09/iphone-7-unboxing-22.jpg" alt="trend#2"
                  style="width:128px;height:128px;">
         </div>
-        <div class="col-sm-4 trend_img">
+        <div class="col-sm-4 anuncio_trend">
             <img class="trend_img" src="https://www1-lw.xda-cdn.com/files/2017/10/Google-Pixel-Buds-are-Assistant-Enabled-Earbuds-that-Cost-149.png" alt="trend#3"
                  style="width:128px;height:128px;">
         </div>
@@ -209,7 +209,6 @@
     <a href="#myPage" title="To Top">
         <span class="glyphicon glyphicon-chevron-up"></span>
     </a>
-    <p>Bootstrap Theme Made By <a href="https://www.w3schools.com" title="Visit w3schools">www.w3schools.com</a></p>
 </footer>
 
 <script>

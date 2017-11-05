@@ -179,3 +179,9 @@ footer .glyphicon {
     width:128px;
     height:128px;
 }
+.anuncio_trend{
+    box-sizing: border-box;
+    height: auto;
+    background-color: #07b451;
+    border-radius: 8px;
+}
