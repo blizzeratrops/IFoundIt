@@ -30,75 +30,29 @@
 <!-- Contenedor del formulario del log in-->
 <div id="login_form" class="container-fluid text-center">
     <form action="/login.php">
+        <div class="small-container text-center">
+            <h4>Iniciar Sesi&oacute;n</h4>
+                <!-- TODO: Agregar imagen para el logueo
+                <div class="imgcontainer">
+                    <img src="" alt="" class="">
+                </div>
+                -->
+            <div class="container">
+                <label><b>Correo Electronico</b></label><br/>
+                <input type="text" placeholder="Ingrese su correo" name="email" required><br/>
 
-        <!-- TODO: Agregar imagen para el logueo
-        <div class="imgcontainer">
-            <img src="" alt="" class="">
+                <label><b>Contrase&ntilde;a</b></label><br/>
+                <input type="password" placeholder="Enter Password" name="psw" required><br/>
+
+                <button type="submit">Login</button><br/>
+                <input type="checkbox" checked="checked"> Recordar Cuenta
+            </div><br/>
         </div>
-        -->
-
-        <div class="container">
-            <label><b>Correo Electronico</b></label>
-            <input type="text" placeholder="Ingrese su correo" name="email" required>
-
-            <label><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
-
-            <button type="submit">Login</button>
-            <input type="checkbox" checked="checked"> Recordar Cuenta
-        </div>
-
         <div class="container" style="background-color:#f1f1f1">
-            <button type="button" class="cancelbtn">Cancel</button>
-            <span class="psw">Forgot <a href="#">password?</a></span>
+            <span class="psw">Forgot <a href="#">password?</a></span><br/>
         </div>
     </form>
 </div>
-
-
-<footer class="container-fluid text-center">
-    <a href="#myPage" title="To Top">
-        <span class="glyphicon glyphicon-chevron-up"></span>
-    </a>
-</footer>
-
-<script>
-    $(document).ready(function(){
-        // Add smooth scrolling to all links in navbar + footer link
-        $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
-            // Make sure this.hash has a value before overriding default behavior
-            if (this.hash !== "") {
-                // Prevent default anchor click behavior
-                event.preventDefault();
-
-                // Store hash
-                var hash = this.hash;
-
-                // Using jQuery's animate() method to add smooth page scroll
-                // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
-                $('html, body').animate({
-                    scrollTop: $(hash).offset().top
-                }, 900, function(){
-
-                    // Add hash (#) to URL when done scrolling (default click behavior)
-                    window.location.hash = hash;
-                });
-            } // End if
-        });
-
-        $(window).scroll(function() {
-            $(".slideanim").each(function(){
-                var pos = $(this).offset().top;
-
-                var winTop = $(window).scrollTop();
-                if (pos < winTop + 600) {
-                    $(this).addClass("slide");
-                }
-            });
-        });
-    })
-</script>
-
 </body>
 </html>
 
