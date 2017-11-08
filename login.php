@@ -33,7 +33,7 @@
 
         <!-- TODO: Agregar imagen para el logueo
         <div class="imgcontainer">
-            <img src="img_avatar2.png" alt="Avatar" class="avatar">
+            <img src="" alt="" class="">
         </div>
         -->
 
