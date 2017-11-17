@@ -23,6 +23,11 @@ h4 {
     padding: 100px 25px;
     font-family: Montserrat, sans-serif;
 }
+.small-container {
+    background-color: #07b451;
+    color: #fff;
+    font-family: Montserrat, sans-serif;
+}
 .container-fluid {
     padding: 60px 50px;
 }
