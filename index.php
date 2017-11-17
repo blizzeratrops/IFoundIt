@@ -1,3 +1,15 @@
+<?php
+session_start();
+require_once("biblioteca/user.php");
+
+$user_id = $_SESSION['user_session'];
+
+if(is_loggedin()!="")
+{
+    //redirect('../index.php');
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,6 +42,15 @@
                 <li><a href="#trending">TRENDING</a></li>
                 <li><a href="#pricing">PRECIOS</a></li>
                 <li><a href="#contact">CONTACTO</a></li>
+                <li><a href="#createAd">CREAR ANUNCIO</a></li>
+                <li><a href="biblioteca/login.php">INICIAR SESION</a></li>
+                <?php
+                    if(is_loggedin()!="")
+                    {
+                        echo '<li><a href="biblioteca/logout.php?logout=true"><span class="glyphicon glyphicon-log-out"></span>&nbsp;CERRAR SESION</a></li>';
+                    }
+
+                ?>
             </ul>
         </div>
     </div>
