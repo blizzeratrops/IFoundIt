@@ -38,4 +38,3 @@ function conectarBD()
         echo "Error al conectar: " . $e->getMessage();
     } 
 }
-?>

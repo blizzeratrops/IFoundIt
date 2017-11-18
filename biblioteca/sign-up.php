@@ -17,18 +17,23 @@
 		$apellido = strip_tags($_POST['txt_apellido']);	
 		$nacionalidad = strip_tags($_POST['txt_nacionalidad']);	
 		
-		if($uname=="")	{
-			$error[] = "Debe proveer un nombre de usuario!";	
+		if($uname=="")	
+		{
+			$error[] = "Debe proveer un email!";	
 		}
-		else if(!filter_var($uname, FILTER_VALIDATE_EMAIL))	{
+		else if(!filter_var($uname, FILTER_VALIDATE_EMAIL))	
+		{
 	    	$error[] = 'Ingrese una direccion de correo valida!';
 		}
-		}else if(strlen($nacionalidad) > 3){
+		else if(strlen($nacionalidad) > 3)
+		{
 			$error[] = "La nacionalidad debe contener solo 3 caracteres!!";	
 		}
-		else if($upass=="")	{
+		else if($upass=="")	
+		{
 			$error[] = "Debe proveer el password!";
-		}else if(strlen($upass) < 6){
+		}else if(strlen($upass) < 6)
+		{
 			$error[] = "El password debe tener al menos 6 caracteres!!";	
 		}
 		else
@@ -91,7 +96,7 @@
 			{
 				 ?>
                  <div class="alert alert-info">
-                      <i class="glyphicon glyphicon-log-in"></i> &nbsp; Registro Exitoso <a href='../index.php'>iniciar sesion</a> aqui
+                      <i class="glyphicon glyphicon-log-in"></i> &nbsp; Registro Exitoso <a href='login.php'>iniciar sesion</a> aqui
                  </div>
                  <?php
 			}

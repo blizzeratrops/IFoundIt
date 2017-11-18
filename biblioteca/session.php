@@ -12,4 +12,3 @@
 		// session no set redirects to login page
 		redirect('../index.php');
 	}
-?>

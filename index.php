@@ -42,8 +42,8 @@ if(is_loggedin()!="")
                 <li><a href="#trending">TRENDING</a></li>
                 <li><a href="#pricing">PRECIOS</a></li>
                 <li><a href="#contact">CONTACTO</a></li>
-                <li><a href="#createAd">CREAR ANUNCIO</a></li>
                 <li><a href="biblioteca/login.php">INICIAR SESION</a></li>
+                <li><a href="biblioteca/crearAnuncio.php">CREAR ANUNCIO</a></li>
                 <?php
                     if(is_loggedin()!="")
                     {

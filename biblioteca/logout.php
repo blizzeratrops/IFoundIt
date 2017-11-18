@@ -11,5 +11,3 @@
 		doLogout();
 		redirect('../index.php');
 	}
-
-?>
