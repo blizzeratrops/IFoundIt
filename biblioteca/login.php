@@ -16,11 +16,13 @@ if(isset($_POST['btn-login']))
 		
 	if(doLogin($conn,$uname,$upass))
 	{
-		redirect('../index.php');
-	}
-	else
-	{
-		$error = "Datos incorrectos!";
+        crearLog("Acceso correcto para el usuario $uname.", 'INFO');
+        redirect('../index.php');
+    }
+    else
+    {
+        crearLog("Error de acceso con el usuario $uname.", 'WARNING');
+        $error = "Datos incorrectos!";
 	}	
 }
 ?>
