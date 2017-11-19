@@ -8,7 +8,7 @@
   $conn = conectarBD();
 	$user_id = $_SESSION['user_session'];
 	
-	$stmt = runQuery($conn,"SELECT * FROM users WHERE user_id=:user_id");
+	$stmt = runQuery($conn,"SELECT * FROM usuarios WHERE usr_id=:user_id");
 	$stmt->execute(array(":user_id"=>$user_id));
 	
 	$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
@@ -22,7 +22,7 @@
 <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" media="screen"> 
 <script type="text/javascript" src="jquery-1.11.3-jquery.min.js"></script>
 <link rel="stylesheet" href="style.css" type="text/css"  />
-<title>welcome - <?php print($userRow['user_email']); ?></title>
+<title>welcome - <?php print($userRow['usr_name']); ?></title>
 </head>
 
 <body>
@@ -49,7 +49,7 @@
             
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-			  <span class="glyphicon glyphicon-user"></span>&nbsp;Hi' <?php echo $userRow['user_email']; ?>&nbsp;<span class="caret"></span></a>
+			  <span class="glyphicon glyphicon-user"></span>&nbsp;Hi' <?php echo $userRow['usr_name']; ?>&nbsp;<span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;View Profile</a></li>
                 <li><a href="logout.php?logout=true"><span class="glyphicon glyphicon-log-out"></span>&nbsp;Sign Out</a></li>
@@ -66,7 +66,7 @@
 	
     <div class="container">
     
-    	<label class="h5">welcome : <?php print($userRow['user_name']); ?></label>
+    	<label class="h5">welcome : <?php print($userRow['usr_name']); ?></label>
         <hr />
         
         <h1>

@@ -46,17 +46,20 @@
 				$row=$stmt->fetch(PDO::FETCH_ASSOC);
 					
 				if($row['usr_name']==$uname) {
+					crearLog("Error al registrar usuario $uname, el nombre ya esta en uso.", 'WARNING');
 					$error[] = "El nombre de usuario ya esta en uso!";
 				}
 				else
 				{
-					if(register($conn,$uname,$upass,$nombre,$apellido,$nacionalidad)){	
+					if(register($conn,$uname,$upass,$nombre,$apellido,$nacionalidad)){
+						crearLog("Usuario $uname registrado correctamente.", 'INFO');	
 						redirect('sign-up.php?joined');
 					}
 				}
 			}
 			catch(PDOException $e)
 			{
+				crearLog($e->getMessage(), 'WARNING');
 				echo $e->getMessage();
 			}
 		}	

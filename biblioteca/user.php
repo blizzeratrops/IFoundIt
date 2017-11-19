@@ -79,3 +79,14 @@
 		unset($_SESSION['user_session']);
 		return true;
 	}
+
+	function crearLog($mensaje, $nivel)
+	{
+		$DATE = DATE("Y-M-D H:M:S");
+		$FILE = __FILE__;
+		$LEVEL = $nivel;
+
+		$MESSAGE = "[{$DATE}] [{$FILE}] [{$LEVEL}] ".$mensaje.PHP_EOL;
+		// LOG TO OUR DEFAULT LOCATION
+		error_log($MESSAGE, 3, '/var/www/html/IFoundit/logs/error.log');
+	}
