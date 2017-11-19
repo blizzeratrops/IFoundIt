@@ -2,12 +2,12 @@
 session_start();
 require_once("biblioteca/user.php");
 
-$user_id = $_SESSION['user_session'];
+/*$user_id = $_SESSION['user_session'];
 
 if(is_loggedin()!="")
 {
     //redirect('../index.php');
-}
+}*/
 
 ?>
 <!DOCTYPE html>
