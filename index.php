@@ -2,12 +2,12 @@
 session_start();
 require_once("biblioteca/user.php");
 
-$user_id = $_SESSION['user_session'];
+/*$user_id = $_SESSION['user_session'];
 
 if(is_loggedin()!="")
 {
     //redirect('../index.php');
-}
+}*/
 
 ?>
 <!DOCTYPE html>
@@ -34,20 +34,16 @@ if(is_loggedin()!="")
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#myPage">Logo</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#categorias">CATEGORIAS</a></li>
-                <li><a href="#trending">TRENDING</a></li>
-                <li><a href="#pricing">PRECIOS</a></li>
-                <li><a href="#contact">CONTACTO</a></li>
-                <li><a href="biblioteca/login.php">INICIAR SESION</a></li>
-                <li><a href="biblioteca/crearAnuncio.php">CREAR ANUNCIO</a></li>
                 <?php
-                    if(is_loggedin()!="")
-                    {
+                    if (is_loggedin()!="") {
+                        echo '<li><a href="biblioteca/profile.php"><span class="glyphicon glyphicon-user"></span>&nbsp;MI CUENTA</a></li>';
                         echo '<li><a href="biblioteca/logout.php?logout=true"><span class="glyphicon glyphicon-log-out"></span>&nbsp;CERRAR SESION</a></li>';
+                    } elseif (is_loggedin() == "") {
+                        echo '<li><a href="biblioteca/login.php"><span class="glyphicon glyphicon-log-in"></span>&nbsp;INICIAR SESION</a></li>';
+                        echo '<li><a href="biblioteca/sign-up.php"><span class="glyphicon glyphicon-plus"></span>&nbsp;REGISTRARSE</a></li>';
                     }
 
                 ?>
@@ -59,11 +55,14 @@ if(is_loggedin()!="")
 <div class="jumbotron text-center">
     <h1>I Found It</h1>
     <p>Anuncios Clasificados</p>
-    <form>
+    <form action="biblioteca/result-busqueda.php" method="get">
         <div class="input-group">
-            <input type="text" class="form-control" size="50" placeholder="Tel&eacute;fonos, Autos, Departamentos, etc..." required>
+            <input type="text" class="form-control" size="50" placeholder="Tel&eacute;fonos, Autos, Departamentos, etc..." required name="busqueda">
             <div class="input-group-btn">
-                <button type="button" class="btn btn-danger">Buscar</button>
+                <button type="submit" class="btn btn-danger" name="buscar"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Buscar</button>
+            </div>            
+            <div class="input-group-btn">
+                <a href="biblioteca/crearAnuncio.php"><button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Crear Anuncio</button></a>
             </div>
         </div>
     </form>

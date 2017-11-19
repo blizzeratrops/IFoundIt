@@ -46,17 +46,20 @@
 				$row=$stmt->fetch(PDO::FETCH_ASSOC);
 					
 				if($row['usr_name']==$uname) {
+					crearLog("Error al registrar usuario $uname, el nombre ya esta en uso.", 'WARNING');
 					$error[] = "El nombre de usuario ya esta en uso!";
 				}
 				else
 				{
-					if(register($conn,$uname,$upass,$nombre,$apellido,$nacionalidad)){	
+					if(register($conn,$uname,$upass,$nombre,$apellido,$nacionalidad)){
+						crearLog("Usuario $uname registrado correctamente.", 'INFO');	
 						redirect('sign-up.php?joined');
 					}
 				}
 			}
 			catch(PDOException $e)
 			{
+				crearLog($e->getMessage(), 'WARNING');
 				echo $e->getMessage();
 			}
 		}	
@@ -67,7 +70,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Coding Cage : Sign up</title>
+<title>IFoundit : Registrarse</title>
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
 <link rel="stylesheet" href="style.css" type="text/css"  />

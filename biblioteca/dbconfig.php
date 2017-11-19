@@ -10,12 +10,15 @@ function conectarBD()
 
     $manejador = fopen($pathArchivoConexion, "r");
     if (!$manejador) {
+        crearLog("No se pudo abrir el archivo de configuracion de la base de datos.", 'ERROR');
         echo "No se pudo abrir el archivo de configuracion de la base de datos!!!";
     }
 
     $paramConexion = file($pathArchivoConexion);
     $cierreArch = fclose($manejador);
     if(!$cierreArch){
+        
+       crearLog("No se pudo cerrar el archivo de configuracion de la base de datos.", 'ERROR');
        echo "No se pudo cerrar el archivo de configuracion de la base de datos. CUIDADO!!!!";
     }
 
@@ -35,6 +38,8 @@ function conectarBD()
         $conn = new PDO("pgsql:host=$host;dbname=$dbname;port=$port;",$user,$password);
         return $conn;
     } catch (PDOException $e) {
+        
+        crearLog("Error al conectar: " . $e->getMessage(), 'ERROR');
         echo "Error al conectar: " . $e->getMessage();
     } 
 }
