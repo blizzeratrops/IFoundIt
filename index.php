@@ -38,16 +38,13 @@ if(is_loggedin()!="")
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#categorias">CATEGORIAS</a></li>
-                <li><a href="#trending">TRENDING</a></li>
-                <li><a href="#pricing">PRECIOS</a></li>
-                <li><a href="#contact">CONTACTO</a></li>
-                <li><a href="biblioteca/login.php">INICIAR SESION</a></li>
-                <li><a href="biblioteca/crearAnuncio.php">CREAR ANUNCIO</a></li>
                 <?php
-                    if(is_loggedin()!="")
-                    {
+                    if (is_loggedin()!="") {
+                        echo '<li><a href="biblioteca/profile.php?logout=true"><span class="glyphicon glyphicon-user"></span>&nbsp;MI CUENTA</a></li>';
                         echo '<li><a href="biblioteca/logout.php?logout=true"><span class="glyphicon glyphicon-log-out"></span>&nbsp;CERRAR SESION</a></li>';
+                    } elseif (is_loggedin() == "") {
+                        echo '<li><a href="biblioteca/login.php"><span class="glyphicon glyphicon-log-in"></span>&nbsp;INICIAR SESION</a></li>';
+                        echo '<li><a href="biblioteca/sign-up.php"><span class="glyphicon glyphicon-plus"></span>&nbsp;REGISTRARSE</a></li>';
                     }
 
                 ?>
@@ -63,7 +60,10 @@ if(is_loggedin()!="")
         <div class="input-group">
             <input type="text" class="form-control" size="50" placeholder="Tel&eacute;fonos, Autos, Departamentos, etc..." required>
             <div class="input-group-btn">
-                <button type="button" class="btn btn-danger">Buscar</button>
+                <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Buscar</button>
+            </div>            
+            <div class="input-group-btn">
+                <a href="biblioteca/crearAnuncio.php"><button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Crear Anuncio</button></a>
             </div>
         </div>
     </form>
