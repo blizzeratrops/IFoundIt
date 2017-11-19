@@ -39,7 +39,7 @@ if(is_loggedin()!="")
             <ul class="nav navbar-nav navbar-right">
                 <?php
                     if (is_loggedin()!="") {
-                        echo '<li><a href="biblioteca/profile.php?logout=true"><span class="glyphicon glyphicon-user"></span>&nbsp;MI CUENTA</a></li>';
+                        echo '<li><a href="biblioteca/profile.php"><span class="glyphicon glyphicon-user"></span>&nbsp;MI CUENTA</a></li>';
                         echo '<li><a href="biblioteca/logout.php?logout=true"><span class="glyphicon glyphicon-log-out"></span>&nbsp;CERRAR SESION</a></li>';
                     } elseif (is_loggedin() == "") {
                         echo '<li><a href="biblioteca/login.php"><span class="glyphicon glyphicon-log-in"></span>&nbsp;INICIAR SESION</a></li>';
