@@ -55,11 +55,11 @@ if(is_loggedin()!="")
 <div class="jumbotron text-center">
     <h1>I Found It</h1>
     <p>Anuncios Clasificados</p>
-    <form>
+    <form action="biblioteca/result-busqueda.php" method="get">
         <div class="input-group">
-            <input type="text" class="form-control" size="50" placeholder="Tel&eacute;fonos, Autos, Departamentos, etc..." required>
+            <input type="text" class="form-control" size="50" placeholder="Tel&eacute;fonos, Autos, Departamentos, etc..." required name="busqueda">
             <div class="input-group-btn">
-                <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Buscar</button>
+                <button type="submit" class="btn btn-danger" name="buscar"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Buscar</button>
             </div>            
             <div class="input-group-btn">
                 <a href="biblioteca/crearAnuncio.php"><button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Crear Anuncio</button></a>

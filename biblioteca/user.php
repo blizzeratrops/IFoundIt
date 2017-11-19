@@ -2,7 +2,7 @@
 
 	function runQuery($conn,$sql)
 	{
-		$conn = conectarBD();
+		//$conn = conectarBD();
 		$stmt = $conn->prepare($sql);
 		return $stmt;
 	}
