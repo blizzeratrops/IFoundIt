@@ -1,6 +1,7 @@
 <?php 
-require_once('busqueda.php');
-require_once('user.php');
+session_start();
+require_once('biblioteca/busqueda.php');
+require_once('biblioteca/user.php');
 
 if( isset($_GET['buscar']) )
 {
@@ -23,7 +24,7 @@ if( isset($_GET['buscar']) )
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
@@ -40,11 +41,11 @@ if( isset($_GET['buscar']) )
             <ul class="nav navbar-nav navbar-right">
                 <?php
                     if (is_loggedin()!="") {
-                        echo '<li><a href="biblioteca/profile.php"><span class="glyphicon glyphicon-user"></span>&nbsp;MI CUENTA</a></li>';
+                        echo '<li><a href="profile.php"><span class="glyphicon glyphicon-user"></span>&nbsp;MI CUENTA</a></li>';
                         echo '<li><a href="biblioteca/logout.php?logout=true"><span class="glyphicon glyphicon-log-out"></span>&nbsp;CERRAR SESION</a></li>';
                     } elseif (is_loggedin() == "") {
-                        echo '<li><a href="biblioteca/login.php"><span class="glyphicon glyphicon-log-in"></span>&nbsp;INICIAR SESION</a></li>';
-                        echo '<li><a href="biblioteca/sign-up.php"><span class="glyphicon glyphicon-plus"></span>&nbsp;REGISTRARSE</a></li>';
+                        echo '<li><a href="login.php"><span class="glyphicon glyphicon-log-in"></span>&nbsp;INICIAR SESION</a></li>';
+                        echo '<li><a href="sign-up.php"><span class="glyphicon glyphicon-plus"></span>&nbsp;REGISTRARSE</a></li>';
                     }
 
                 ?>

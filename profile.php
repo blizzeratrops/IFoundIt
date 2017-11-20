@@ -1,9 +1,9 @@
 <?php
 
-	require_once("session.php");
+	require_once("biblioteca/session.php");
 	
-  require_once("user.php");
-	require_once("dbconfig.php");
+  require_once("biblioteca/user.php");
+	require_once("biblioteca/dbconfig.php");
 	
   $conn = conectarBD();
 	$user_id = $_SESSION['user_session'];
@@ -18,9 +18,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"> 
-<link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" media="screen"> 
-<script type="text/javascript" src="jquery-1.11.3-jquery.min.js"></script>
+<link href="biblioteca/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"> 
+<link href="biblioteca/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" media="screen"> 
+<script type="text/javascript" src="biblioteca/jquery-1.11.3-jquery.min.js"></script>
 <link rel="stylesheet" href="style.css" type="text/css"  />
 <title>Bienvenido - <?php print($userRow['usr_name']); ?></title>
 </head>
@@ -37,7 +37,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.php">IFoundit</a>
+          <a class="navbar-brand" href="index.php">IFoundit</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -47,7 +47,7 @@
 			  <span class="glyphicon glyphicon-user"></span>&nbsp;Hola <?php echo $userRow['usr_name']; ?>&nbsp;<span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;Ver perfil</a></li>
-                <li><a href="logout.php?logout=true"><span class="glyphicon glyphicon-log-out"></span>&nbsp;Cerrar sesion</a></li>
+                <li><a href="biblioteca/logout.php?logout=true"><span class="glyphicon glyphicon-log-out"></span>&nbsp;Cerrar sesion</a></li>
               </ul>
             </li>
           </ul>
@@ -65,7 +65,7 @@
         <hr />
         
         <h1>
-        <a href="../index.php"><span class="glyphicon glyphicon-home"></span> Inicio</a> &nbsp; 
+        <a href="index.php"><span class="glyphicon glyphicon-home"></span> Inicio</a> &nbsp; 
         <a href="profile.php"><span class="glyphicon glyphicon-user"></span> Perfil</a></h1>
         <hr />
         
@@ -73,11 +73,5 @@
     </div>
 
 </div>
-
-
-
-
-<script src="bootstrap/js/bootstrap.min.js"></script>
-
 </body>
 </html>
