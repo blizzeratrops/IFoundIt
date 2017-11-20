@@ -39,11 +39,11 @@ if(is_loggedin()!="")
             <ul class="nav navbar-nav navbar-right">
                 <?php
                     if (is_loggedin()!="") {
-                        echo '<li><a href="biblioteca/profile.php"><span class="glyphicon glyphicon-user"></span>&nbsp;MI CUENTA</a></li>';
+                        echo '<li><a href="profile.php"><span class="glyphicon glyphicon-user"></span>&nbsp;MI CUENTA</a></li>';
                         echo '<li><a href="biblioteca/logout.php?logout=true"><span class="glyphicon glyphicon-log-out"></span>&nbsp;CERRAR SESION</a></li>';
                     } elseif (is_loggedin() == "") {
-                        echo '<li><a href="biblioteca/login.php"><span class="glyphicon glyphicon-log-in"></span>&nbsp;INICIAR SESION</a></li>';
-                        echo '<li><a href="biblioteca/sign-up.php"><span class="glyphicon glyphicon-plus"></span>&nbsp;REGISTRARSE</a></li>';
+                        echo '<li><a href="login.php"><span class="glyphicon glyphicon-log-in"></span>&nbsp;INICIAR SESION</a></li>';
+                        echo '<li><a href="sign-up.php"><span class="glyphicon glyphicon-plus"></span>&nbsp;REGISTRARSE</a></li>';
                     }
 
                 ?>
@@ -55,7 +55,7 @@ if(is_loggedin()!="")
 <div class="jumbotron text-center">
     <h1>I Found It</h1>
     <p>Anuncios Clasificados</p>
-    <form action="biblioteca/result-busqueda.php" method="get">
+    <form action="result-busqueda.php" method="get">
         <div class="input-group">
             <input type="text" class="form-control" size="50" placeholder="Tel&eacute;fonos, Autos, Departamentos, etc..." required name="busqueda">
             <div class="input-group-btn">
