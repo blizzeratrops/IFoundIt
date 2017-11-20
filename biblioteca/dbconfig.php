@@ -1,7 +1,7 @@
 <?php
 function conectarBD()
 {
-    $pathArchivoConexion="../config/configpostgres.inc";
+    $pathArchivoConexion="config/configpostgres.inc";
     $host     = null;
     $dbname   = null;
     $port     = null;
