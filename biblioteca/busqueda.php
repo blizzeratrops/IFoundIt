@@ -17,13 +17,8 @@ function search($query){
             JOIN ciudades c on a.ciudad = c.c_id
             JOIN usuarios u on a.usr = u.usr_id
             WHERE to_tsvector(titulo || '. ' || descripcion) @@ to_tsquery('$query')
-            ORDER BY a.fecha_creacion DESC;";
-    /*$sql = "SELECT a.anuncio_id as id,a.titulo as titulo,a.fecha_creacion as fecha,a.ciudad as ciudad,
-            a.descripcion as descripcion,a.valor as monto,a.usr as usuario
-            FROM anuncios a
-            WHERE a.titulo like '%$query%'
-            OR a.descripcion like '%$query%'
-            ORDER BY a.fecha_creacion DESC;";*/
+            ORDER BY fecha DESC;";
+
     $stmt = runQuery($conn, $sql);
     $stmt->execute();
     //$row=$stmt->fetch(PDO::FETCH_ASSOC);
