@@ -10,6 +10,9 @@ h2 {
     font-weight: 600;
     margin-bottom: 30px;
 }
+a {
+    color: #f4cca4;
+}
 h4 {
     font-size: 19px;
     line-height: 1.375em;
@@ -20,7 +23,7 @@ h4 {
 .jumbotron {
     background-color: #07b451;
     color: #fff;
-    padding: 100px 25px;
+    padding: 50px 25px;
     font-family: Montserrat, sans-serif;
 }
 .small-container {
@@ -189,4 +192,21 @@ footer .glyphicon {
     height: auto;
     background-color: #07b451;
     border-radius: 8px;
+}
+
+
+.form-signin{
+    margin-left: 400px;
+    margin-right: 400px;
+}
+
+.form-signin .form-signin-heading{
+    color:#00A2D1;
+}
+.form-signin input[type="text"],
+.form-signin input[type="password"],
+.form-signin input[type="email"] {
+    font-size: 16px;
+    height: 45px;
+    /*padding: 7px 9px;*/
 }
