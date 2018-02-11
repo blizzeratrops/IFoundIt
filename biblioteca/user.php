@@ -88,5 +88,32 @@
 
 		$MESSAGE = "[{$DATE}] [{$FILE}] [{$LEVEL}] ".$mensaje.PHP_EOL;
 		// LOG TO OUR DEFAULT LOCATION
-		error_log($MESSAGE, 3, '/var/www/html/IFoundit/logs/error.log');
+		error_log($MESSAGE, 3, '/tmp/IFoundit/logs/error.log');
+	}
+
+
+function crearAnuncio($conn,$titulo,$descripcion,$ciudad,$precio,$telefono,$email,$user_id)
+	{
+		try
+		{
+			
+			$stmt = $conn->prepare("INSERT INTO anuncios(titulo, descripcion, usr, valor, moneda, ciudad, telefono, email) 
+		                                               VALUES(:titulo, :descripcion, :usr, :valor, 'G', :ciudad,  :telefono, :email)");
+												  
+			$stmt->bindparam(":titulo", $titulo);
+			$stmt->bindparam(":descripcion", $descripcion);										  
+			$stmt->bindparam(":ciudad", $ciudad);										  
+			$stmt->bindparam(":valor", $precio);										  
+			$stmt->bindparam(":telefono", $telefono);										  
+			$stmt->bindparam(":email", $email);										  
+			$stmt->bindparam(":usr", $user_id);										  
+				
+			$stmt->execute();
+
+			return $stmt;	
+		}
+		catch(PDOException $e)
+		{
+			echo $e->getMessage();
+		}				
 	}

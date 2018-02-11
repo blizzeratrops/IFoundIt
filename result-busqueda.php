@@ -91,7 +91,9 @@ if( isset($_GET['buscar']) )
 					echo "<td>".$row['ciudad']."</td>";
 					echo "<td>".$row['descripcion']."</td>";
 					echo "<td>".$row['monto']."</td>";
-					echo "<td>".$row['usuario']."</td>";
+                    echo "<td>".$row['usuario']."</td>";
+					echo '<td><a href="mostrarAnuncio.php?id='. $row['id'] .'">Detalles</a></td>';
+
 				echo "</tr>";
 			}
 			echo "</table>";
