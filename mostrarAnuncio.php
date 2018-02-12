@@ -9,7 +9,7 @@
 	$anuncio_id = $_GET['id'];
 	
   $sql = "SELECT a.anuncio_id as id,a.titulo as titulo,a.fecha_creacion as fecha,c.c_name as ciudad,
-            a.descripcion as descripcion,a.valor as monto,u.usr_name as usuario 
+            a.descripcion as descripcion,a.valor as monto,u.usr_name as usuario, a.telefono as telefono, a.email as email 
             FROM anuncios a
             JOIN ciudades c on a.ciudad = c.c_id
             JOIN usuarios u on a.usr = u.usr_id
@@ -18,6 +18,12 @@
   $stmt = runQuery($conn, $sql);
   $stmt->execute(array(":anuncio_id"=>$anuncio_id));
   $search_results = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  $temp = '/tmp/IFoundit/tmp.jpg';
+  $query = "select lo_export(imagen, '$temp') from imagenes where id_anuncio = :anuncio_id";
+  $stmt = runQuery($conn, $sql);
+  $stmt->execute(array(":anuncio_id"=>$anuncio_id));
+  $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
 	
 ?>
@@ -85,6 +91,16 @@
 
         echo "</tr>";
       echo "</table>";
+
+      if($result)
+      {
+          
+              //$ctobj = $result["imagen"];
+              echo "<IMG SRC=biblioteca/show.php width='500' height='300'>";
+
+      }
+      else { echo "File does not exists."; }
+
     }else{
       echo "No se encontraron resultados para su busqueda.";
     }

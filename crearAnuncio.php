@@ -51,17 +51,16 @@
 					$uploaddir = '/tmp/IFoundit/';
 					$uploadfile = $uploaddir . basename($_FILES['imagen']['name']);
 
-					if (move_uploaded_file($_FILES['imagen']['tmp_name'], $uploadfile))
-					{   // echo "File is valid, and was successfully uploaded.\n";
-					}
-					else   {   echo "File size greater than 300kb!\n\n";   }
+					$aux = move_uploaded_file($_FILES['imagen']['tmp_name'], $uploadfile);
 
-					$stmt = $conn->prepare("INSERT INTO imagenes(imagen, id_anuncio) 
+					if ($aux) {
+						$stmt = $conn->prepare("INSERT INTO imagenes(imagen, id_anuncio) 
 				                                               VALUES(lo_import('$uploadfile'), $id_anuncio)");
-					$stmt->execute();
+						$stmt->execute();
+					}
 
-					crearLog("El usuario con id $user_id creo un anuncio.", 'INFO');	
-					redirect('index.php');
+					crearLog("El usuario con id $user_id creo un anuncio.", 'INFO');
+					redirect('profile.php');
 				}
 	
 			}
@@ -142,7 +141,7 @@
         	<input type="text" class="form-control" name="txt_email" placeholder="Email" value="<?php if(isset($error)){echo $email;}?>" />
         </div>        
         <div class="form-group">
-			<input type="hidden" name="MAX_FILE_SIZE" value="300000" />Seleccionar imagen: <input name="imagen" type="file" size="25"/>
+			<input type="hidden" name="MAX_FILE_SIZE" value="9000000" />Seleccionar imagen: <input name="imagen" type="file" size="25"/>
         </div>
 
  	    <div class="clearfix"></div><hr />
