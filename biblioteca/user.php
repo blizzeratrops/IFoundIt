@@ -3,6 +3,7 @@
 	function runQuery($conn,$sql)
 	{
 		//$conn = conectarBD();
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$stmt = $conn->prepare($sql);
 		return $stmt;
 	}
@@ -93,7 +94,7 @@
 
 
 function crearAnuncio($conn,$titulo,$descripcion,$ciudad,$precio,$telefono,$email,$user_id)
-	{
+{
 		try
 		{
 			
@@ -116,4 +117,27 @@ function crearAnuncio($conn,$titulo,$descripcion,$ciudad,$precio,$telefono,$emai
 		{
 			echo $e->getMessage();
 		}				
-	}
+}
+
+function crearComentario($conn,$usuario,$anuncio_id,$comentario)
+{
+		try
+		{
+			
+			$stmt = $conn->prepare("INSERT INTO comentarios(usr_id, anuncio_id, comentario) 
+		                                               VALUES(:usuario, :anuncio_id, :comentario)");
+												  
+			$stmt->bindparam(":usuario", $usuario);
+			$stmt->bindparam(":anuncio_id", $anuncio_id);										  
+			$stmt->bindparam(":comentario", $comentario);										  
+				
+			$stmt->execute();
+
+			return $stmt;	
+		}
+		catch(PDOException $e)
+		{
+			crearLog($e->getMessage(), 'WARNING');
+			echo $e->getMessage();
+		}				
+}

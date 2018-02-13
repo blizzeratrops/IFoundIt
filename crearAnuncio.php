@@ -35,7 +35,7 @@
 			$error[] = "No puede ingresar un precio negativo!!";	
 		}
 
-	else
+		else
 		{
 			try
 			{
