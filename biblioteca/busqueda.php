@@ -17,6 +17,7 @@ function search($query){
             JOIN ciudades c on a.ciudad = c.c_id
             JOIN usuarios u on a.usr = u.usr_id
             WHERE to_tsvector(titulo || '. ' || descripcion) @@ to_tsquery('$query')
+            and a.estado = 1
             ORDER BY fecha DESC;";
 
     $stmt = runQuery($conn, $sql);

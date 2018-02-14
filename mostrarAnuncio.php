@@ -23,7 +23,7 @@
 
 //seleccionar imagenes del anuncio
 
-  $temp = '/tmp/IFoundit/tmp.jpg';
+  $temp = '/home/ifoundit/tmp.jpg';
   $query = "select lo_export(imagen, '$temp') from imagenes where id_anuncio = :anuncio_id";
   $stmt = runQuery($conn, $query);
   $stmt->execute(array(":anuncio_id"=>$anuncio_id));
@@ -168,6 +168,8 @@
   <h3>Comentarios</h3>
 </div>
 
+
+<div class="container">
 <?php 
 
 if ($comment_result) {
@@ -190,7 +192,8 @@ if ($comment_result) {
 }
 
  ?>
-
+</div>
+<div class="container text-center">
 <?php 
 
   if(is_loggedin()!="")
@@ -224,5 +227,6 @@ if ($comment_result) {
     }
 
  ?>
+</div>
 </body>
 </html>

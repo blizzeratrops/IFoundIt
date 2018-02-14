@@ -89,7 +89,7 @@
 
 		$MESSAGE = "[{$DATE}] [{$FILE}] [{$LEVEL}] ".$mensaje.PHP_EOL;
 		// LOG TO OUR DEFAULT LOCATION
-		error_log($MESSAGE, 3, '/tmp/IFoundit/logs/error.log');
+		error_log($MESSAGE, 3, '/home/ifoundit/logs/error.log');
 	}
 
 
@@ -138,6 +138,37 @@ function crearComentario($conn,$usuario,$anuncio_id,$comentario)
 		catch(PDOException $e)
 		{
 			crearLog($e->getMessage(), 'WARNING');
+			echo $e->getMessage();
+		}				
+}
+
+function editarAnuncio($conn,$titulo,$descripcion,$ciudad,$precio,$telefono,$email,$anuncio_id)
+{
+		try
+		{
+			
+			$stmt = $conn->prepare("UPDATE anuncios 
+				SET titulo=:titulo,
+				 descripcion=:descripcion,
+				 valor=:precio,
+				 ciudad=:ciudad,
+				 telefono=:telefono,
+				 email=:email
+				 WHERE anuncio_id = :anuncio_id;");
+
+			$stmt->bindparam(":titulo", $titulo);
+			$stmt->bindparam(":descripcion", $descripcion);										  
+			$stmt->bindparam(":ciudad", $ciudad);										  
+			$stmt->bindparam(":precio", $precio);										  
+			$stmt->bindparam(":telefono", $telefono);										  
+			$stmt->bindparam(":email", $email);										  
+			$stmt->bindparam(":anuncio_id", $anuncio_id);										  
+			$stmt->execute();
+
+			return $stmt;	
+		}
+		catch(PDOException $e)
+		{
 			echo $e->getMessage();
 		}				
 }

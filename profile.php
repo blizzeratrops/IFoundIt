@@ -1,21 +1,18 @@
 <?php
-  session_start();
 	require_once("biblioteca/session.php");
 	
   require_once("biblioteca/user.php");
 	require_once("biblioteca/dbconfig.php");
-	
+  
   $conn = conectarBD();
-	$user_id = $_SESSION['user_session'];
-	
+  $user_id = $_SESSION['user_session'];
+
 	$stmt = runQuery($conn,"SELECT * FROM usuarios WHERE usr_id=:user_id");
 	$stmt->execute(array(":user_id"=>$user_id));
-	
 	$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
 
-
   $sql = "SELECT a.anuncio_id as id,a.titulo as titulo,a.fecha_creacion as fecha,c.c_name as ciudad,
-            a.descripcion as descripcion,a.valor as monto,u.usr_name as usuario 
+            a.descripcion as descripcion,a.valor as monto,u.usr_name as usuario, a.estado as estado 
             FROM anuncios a
             JOIN ciudades c on a.ciudad = c.c_id
             JOIN usuarios u on a.usr = u.usr_id
@@ -76,6 +73,7 @@
           echo "<td> Descripcion </td>";
           echo "<td> Monto </td>";
           echo "<td> Usuario </td>";
+          echo "<td> Estado </td>";
         echo "</tr>";
 
       foreach ($search_results as $row) {
@@ -87,6 +85,26 @@
           echo "<td>".$row['descripcion']."</td>";
           echo "<td>".$row['monto']."</td>";
           echo "<td>".$row['usuario']."</td>";
+
+          if ($row['estado']) {
+            $estado = 'Activo';
+          }else{
+            $estado = 'Inactivo';
+          }
+
+          echo "<td>".$estado."</td>";
+
+          if ($estado == 'Activo') {
+            
+            echo '<td><a href="modificarAnuncio.php?id='. $row['id'] .'&estado=0">Desactivar</a></td>';
+
+          }elseif ($estado == 'Inactivo') {
+            
+            echo '<td><a href="modificarAnuncio.php?id='. $row['id'] .'&estado=1">Activar</a></td>';
+          
+          }
+
+          echo '<td><a href="editarAnuncio.php?id='. $row['id'] .'&user_id='."$user_id".'">Editar</a></td>';
           echo '<td><a href="mostrarAnuncio.php?id='. $row['id'] .'">Detalles</a></td>';
         echo "</tr>";
       }
