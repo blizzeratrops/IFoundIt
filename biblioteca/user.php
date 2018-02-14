@@ -119,17 +119,18 @@
 			}				
 	}
 
-	function crearComentario($conn,$usuario,$anuncio_id,$comentario)
+	function crearComentario($conn,$usuario,$anuncio_id,$comentario,$isreport)
 	{
 			try
 			{
 				
-				$stmt = $conn->prepare("INSERT INTO comentarios(usr_id, anuncio_id, comentario) 
-			                                               VALUES(:usuario, :anuncio_id, :comentario)");
+				$stmt = $conn->prepare("INSERT INTO comentarios(usr_id, anuncio_id, comentario, isreport) 
+			                                               VALUES(:usuario, :anuncio_id, :comentario, :isreport)");
 													  
 				$stmt->bindparam(":usuario", $usuario);
 				$stmt->bindparam(":anuncio_id", $anuncio_id);										  
 				$stmt->bindparam(":comentario", $comentario);										  
+				$stmt->bindparam(":isreport", $isreport);										  
 					
 				$stmt->execute();
 
@@ -200,4 +201,26 @@
 			{
 				echo $e->getMessage();
 			}				
+	}
+	function crearCalificacion($conn,$usuario,$anuncio_id,$calificacion)
+	{
+		try
+			{
+				
+				$stmt = $conn->prepare("INSERT INTO calificaciones(calificacion, anuncio_id, user_id) 
+			                                               VALUES(:calificacion, :anuncio_id, :usuario)");
+													  
+				$stmt->bindparam(":calificacion", $calificacion);
+				$stmt->bindparam(":anuncio_id", $anuncio_id);										  
+				$stmt->bindparam(":usuario", $usuario);										  
+					
+				$stmt->execute();
+
+				return $stmt;	
+			}
+			catch(PDOException $e)
+			{
+				crearLog($e->getMessage(), 'WARNING');
+				echo $e->getMessage();
+			}			
 	}

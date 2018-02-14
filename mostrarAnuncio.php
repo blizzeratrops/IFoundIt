@@ -4,8 +4,13 @@
 	require_once("biblioteca/dbconfig.php");
 
 
-  $conn = conectarBD();
-  $anuncio_id = $_GET['id'];
+  if (isset($_GET['id'])) {
+    $conn = conectarBD();
+    $anuncio_id = $_GET['id'];
+    # code...
+  }else{
+    redirect('index.php');
+  }
 
   //seleccionar datos del anuncio
   $_SESSION['anuncio_id'] = $anuncio_id;
@@ -35,6 +40,7 @@
     $usuario = $_SESSION['user_session'];
     $comentario = strip_tags($_POST['txt_comentario']);
     $anuncio_id = strip_tags($_POST['anuncio_id']);
+    $isreport = strip_tags($_POST['isreport']);
     
     if(!$comentario || trim($comentario)=="")  
     {
@@ -45,12 +51,20 @@
         try
           {
             //$conn = conectarBD();
-            if(crearComentario($conn,$usuario,$anuncio_id,$comentario))
-            {
+            if(crearComentario($conn,$usuario,$anuncio_id,$comentario,$isreport))
+            {         
               
               crearLog("El usuario con id $usuario publico un comentario en el anuncio $anuncio_id.", 'INFO');
-              //unset($_SESSION['anuncio_id']);
-              //redirect('profile.php');
+
+              if (isset($_POST['calificacion'])) {
+                $calificacion = strip_tags($_POST['calificacion']);
+                if(crearCalificacion($conn,$usuario,$anuncio_id,$calificacion))
+                {
+                  crearLog("El usuario con id $usuario califico el anuncio $anuncio_id con un $calificacion.", 'INFO');
+                  
+                }
+
+              }
             }
           }catch(PDOException $e)
           {
@@ -60,12 +74,13 @@
           }
       }
   }     
-  //seleccionar ocmentarios del anuncio
+  //seleccionar comentarios del anuncio
   $sql = "SELECT u.nombre || ' ' || u.apellido as usuario ,c.comentario as comentario, c.fecha_comentario as fecha 
               FROM comentarios c
               JOIN usuarios u on c.usr_id = u.usr_id
               JOIN anuncios a on c.anuncio_id = a.anuncio_id
               WHERE a.anuncio_id = :anuncio_id
+              AND c.isreport = 0
               ORDER BY fecha;";
   $stmt = runQuery($conn, $sql);
   $stmt->execute(array(":anuncio_id"=>$anuncio_id));
@@ -199,6 +214,13 @@ if ($comment_result) {
 
   if(is_loggedin()!="")
     {
+      $user_id = $_SESSION['user_session']; 
+      $stmt = runQuery($conn,"SELECT * FROM calificaciones WHERE user_id=:user_id AND anuncio_id = :anuncio_id");
+      $stmt->bindparam(":user_id", $user_id);                     
+      $stmt->bindparam(":anuncio_id", $anuncio_id);                     
+        
+      $stmt->execute(); 
+      $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
       if(isset($error))
       {
         foreach($error as $error)
@@ -212,6 +234,34 @@ if ($comment_result) {
       }
       echo'<div class="container">';
         echo'<form method="post" class="form-signin">';
+        ?>
+          <div class="form-group">
+            <label style="float: left;">Reportar anuncio?</label>
+            <select class="form-control" name="isreport" style="float: right; width: 60%;">
+              <option value="1" >Si</option>
+              <option value="0" selected="selected">No</option>
+            </select>
+          </div>
+          <br>
+          <hr style="clear: both;">
+          <?php 
+            if (!$userRow) 
+            {
+          ?>
+              <div class="form-group">
+                <label style="float: left;">Calificar</label>
+                <select class="form-control" name="calificacion" style="float: right; width: 60%;">
+                  <option value="1" >1</option>
+                  <option value="2" >2</option>
+                  <option value="3" >3</option>
+                  <option value="4" >4</option>
+                  <option value="5" selected="selected">5</option>
+                </select>
+              </div>
+              <br>
+              <hr style="clear: both;">
+          <?php
+            }
           echo'<div class="form-group">';
           echo'<input type="text" class="form-control" name="txt_comentario" placeholder="Comentario" />';
           echo'</div>';
@@ -219,7 +269,7 @@ if ($comment_result) {
           echo'<div class="clearfix"></div><hr />';
           echo'<div class="form-group">';
             echo'<button type="submit" class="btn btn-default" name="btn-comentar">';
-                echo'<i class="glyphicon glyphicon-open-file"></i>&nbsp;Comentar';
+                echo'<i class="glyphicon glyphicon-open-file"></i>&nbsp;Enviar';
               echo'</button>';
             echo'<br />';
           echo'</div>';
