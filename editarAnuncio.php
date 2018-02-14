@@ -1,27 +1,37 @@
 <?php
-	session_start();
+	require_once("biblioteca/session.php");
 	require_once('biblioteca/user.php');
 	require_once('biblioteca/dbconfig.php');
 
 	
 
-		$user_id = $_GET['user_id'];
-		$anuncio_id = $_GET['id'];
-		$conn = conectarBD();
+	$user_id = $_GET['user_id'];
+	$anuncio_id = $_GET['id'];
+	$conn = conectarBD();
 
-		$sql = "SELECT a.titulo as titulo, a.descripcion as descripcion, a.ciudad as ciudad, a.valor as monto, a.telefono as telefono, a.email as email 
-				FROM anuncios a 
-				where anuncio_id = $anuncio_id";
-		$stmt = runQuery($conn,$sql);
-		$stmt->execute();
-		$row=$stmt->fetch(PDO::FETCH_ASSOC);
+	$user_id = $_SESSION['user_session'];
 
-		$titulo = $row['titulo'];
-		$descripcion = $row['descripcion'];
-		$ciudad = $row['ciudad'];
-		$precio = $row['monto'];
-		$telefono = $row['telefono'];
-		$email = $row['email'];
+	$stmt = runQuery($conn,"SELECT * FROM usuarios WHERE usr_id=:user_id");
+	$stmt->execute(array(":user_id"=>$user_id));
+	$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
+
+	if (!$userRow['isadmin']) {
+		redirect('index.php');
+	}
+
+	$sql = "SELECT a.titulo as titulo, a.descripcion as descripcion, a.ciudad as ciudad, a.valor as monto, a.telefono as telefono, a.email as email 
+			FROM anuncios a 
+			where anuncio_id = $anuncio_id";
+	$stmt = runQuery($conn,$sql);
+	$stmt->execute();
+	$row=$stmt->fetch(PDO::FETCH_ASSOC);
+
+	$titulo = $row['titulo'];
+	$descripcion = $row['descripcion'];
+	$ciudad = $row['ciudad'];
+	$precio = $row['monto'];
+	$telefono = $row['telefono'];
+	$email = $row['email'];
 
 
 	if(isset($_POST['btn-publicar']))

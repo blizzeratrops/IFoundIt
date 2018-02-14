@@ -1,32 +1,47 @@
 <?php
-	session_start();
+	require_once("biblioteca/session.php");
 	require_once('biblioteca/user.php');
 	require_once('biblioteca/dbconfig.php');
 
-	if(is_loggedin())
-	{
+
+	$usuario = $_GET['user_id'];
+	$usr_id = $_GET['id'];
+	$conn = conectarBD();
+
+	$user_id = $_SESSION['user_session'];
+
+	$stmt = runQuery($conn,"SELECT * FROM usuarios WHERE usr_id=:user_id");
+	$stmt->execute(array(":user_id"=>$user_id));
+	$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
+
+	if (!$userRow['isadmin']) {
 		redirect('index.php');
 	}
+
+	$sql = "SELECT * 
+			FROM usuarios 
+			where usr_id = $usr_id";
+	$stmt = runQuery($conn,$sql);
+	$stmt->execute();
+	$row=$stmt->fetch(PDO::FETCH_ASSOC);
+
+	$uname = $row['usr_name'];
+	$nombre = $row['nombre'];
+	$apellido = $row['apellido'];
+	$nacionalidad = $row['nacionalidad'];
+	$selected = $row['isadmin'];
 
 	if(isset($_POST['btn-signup']))
 	{
 
-		$uname = strip_tags($_POST['txt_uname']);
 		$upass = strip_tags($_POST['txt_upass']);
 		$upass2 = strip_tags($_POST['txt_upass2']);
 		$nombre = strip_tags($_POST['txt_nombre']);	
 		$apellido = strip_tags($_POST['txt_apellido']);	
 		$nacionalidad = strip_tags($_POST['txt_nacionalidad']);	
+		$admin = strip_tags($_POST['admin']);	
 		
-		if($uname=="")	
-		{
-			$error[] = "Debe proveer un email!";	
-		}
-		else if(!filter_var($uname, FILTER_VALIDATE_EMAIL))	
-		{
-	    	$error[] = 'Ingrese una direccion de correo valida!';
-		}		
-		else if($upass=="")	
+		if($upass=="")	
 		{
 			$error[] = "Debe proveer el password!";
 		}else if(strlen($upass) < 6)
@@ -40,22 +55,14 @@
 		{
 			try
 			{
-				$conn = conectarBD();
 				$stmt = runQuery($conn,"SELECT usr_name FROM usuarios WHERE usr_name=:uname");
 				$stmt->execute(array(':uname'=>$uname));
 				$row=$stmt->fetch(PDO::FETCH_ASSOC);
 					
-				if($row['usr_name']==$uname) {
-					crearLog("Error al registrar usuario $uname, el nombre ya esta en uso.", 'WARNING');
-					$error[] = "El nombre de usuario ya esta en uso!";
+				if(editarUsuario($conn,$upass,$nombre,$apellido,$nacionalidad,$usr_id,$admin)){
+					redirect('mostrarUsuarios.php');
 				}
-				else
-				{
-					if(register($conn,$uname,$upass,$nombre,$apellido,$nacionalidad)){
-						crearLog("Usuario $uname registrado correctamente.", 'INFO');	
-						redirect('sign-up.php?joined');
-					}
-				}
+				
 			}
 			catch(PDOException $e)
 			{
@@ -69,7 +76,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>IFoundit : Registrarse</title>
+	<title>IFoundit : Editar usuario</title>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -91,7 +98,7 @@
     </nav>
 	<h1>I Found It</h1>
     <form method="post" class="form-signin">
-        <p>Crear cuenta</p><hr />
+        <p>Editar usuario</p><hr />
         <?php
 		if(isset($error))
 		{
@@ -114,16 +121,17 @@
 		}
 		?>
         <div class="form-group">
-        	<input type="text" class="form-control" name="txt_uname" placeholder="Email" value="<?php if(isset($error)){echo $uname;}?>" />
+        	<label>Usuario:</label>
+        	<label><?php echo $uname;?></label>
         </div>
         <div class="form-group">
-        	<input type="text" class="form-control" name="txt_nombre" placeholder="Nombre" value="<?php if(isset($error)){echo $nombre;}?>" />
+        	<input type="text" class="form-control" name="txt_nombre" placeholder="Nombre" value="<?php echo $nombre;?>" />
         </div>
         <div class="form-group">
-        	<input type="text" class="form-control" name="txt_apellido" placeholder="Apellido" value="<?php if(isset($error)){echo $apellido;}?>" />
+        	<input type="text" class="form-control" name="txt_apellido" placeholder="Apellido" value="<?php echo $apellido;?>" />
         </div>
         <div class="form-group">
-        	<input type="text" class="form-control" name="txt_nacionalidad" placeholder="Nacionalidad" value="<?php if(isset($error)){echo $nacionalidad;}?>" />
+        	<input type="text" class="form-control" name="txt_nacionalidad" placeholder="Nacionalidad" value="<?php echo $nacionalidad;?>" />
         </div>
 
         <div class="form-group">
@@ -132,13 +140,22 @@
         <div class="form-group">
         	<input type="password" class="form-control" name="txt_upass2" placeholder="Repetir Password" />
         </div>
+        <div class="form-group">
+	        <select class="form-control" name="admin">
+			  <option value="1" <?php if($selected){echo("selected");}?>>Si</option>
+			  <option value="0" <?php if(!$selected){echo("selected");}?>>No</option>
+			</select>
+		</div>
         <div class="clearfix"></div><hr />
         <div class="form-group">
         	<button type="submit" class="btn btn-default" name="btn-signup">
-            	<i class="glyphicon glyphicon-open-file"></i>&nbsp;REGISTRARSE
+            	<i class="glyphicon glyphicon-open-file"></i>&nbsp;ACEPTAR
             </button>
-        	<br />
-        	<label>Ya tienes una cuenta? <a href="login.php">Iniciar sesion</a></label>
+            <a href="mostrarUsuarios.php">
+	            <button type="button" class="btn btn-default" name="btn-cancelar">
+	            	<i class="glyphicon glyphicon-remove"></i>&nbsp;Cancelar
+	            </button>            	
+            </a> 
         </div>
     </form>
    </div>

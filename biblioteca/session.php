@@ -10,5 +10,5 @@
 	if(!is_loggedin())
 	{
 		// session no set redirects to login page
-		redirect('../index.php');
+		redirect('login.php');
 	}

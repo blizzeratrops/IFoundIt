@@ -93,82 +93,111 @@
 	}
 
 
-function crearAnuncio($conn,$titulo,$descripcion,$ciudad,$precio,$telefono,$email,$user_id)
-{
-		try
-		{
-			
-			$stmt = $conn->prepare("INSERT INTO anuncios(titulo, descripcion, usr, valor, moneda, ciudad, telefono, email) 
-		                                               VALUES(:titulo, :descripcion, :usr, :valor, 'G', :ciudad,  :telefono, :email)");
-												  
-			$stmt->bindparam(":titulo", $titulo);
-			$stmt->bindparam(":descripcion", $descripcion);										  
-			$stmt->bindparam(":ciudad", $ciudad);										  
-			$stmt->bindparam(":valor", $precio);										  
-			$stmt->bindparam(":telefono", $telefono);										  
-			$stmt->bindparam(":email", $email);										  
-			$stmt->bindparam(":usr", $user_id);										  
+	function crearAnuncio($conn,$titulo,$descripcion,$ciudad,$precio,$telefono,$email,$user_id)
+	{
+			try
+			{
 				
-			$stmt->execute();
+				$stmt = $conn->prepare("INSERT INTO anuncios(titulo, descripcion, usr, valor, moneda, ciudad, telefono, email) 
+			                                               VALUES(:titulo, :descripcion, :usr, :valor, 'G', :ciudad,  :telefono, :email)");
+													  
+				$stmt->bindparam(":titulo", $titulo);
+				$stmt->bindparam(":descripcion", $descripcion);										  
+				$stmt->bindparam(":ciudad", $ciudad);										  
+				$stmt->bindparam(":valor", $precio);										  
+				$stmt->bindparam(":telefono", $telefono);										  
+				$stmt->bindparam(":email", $email);										  
+				$stmt->bindparam(":usr", $user_id);										  
+					
+				$stmt->execute();
 
-			return $stmt;	
-		}
-		catch(PDOException $e)
-		{
-			echo $e->getMessage();
-		}				
-}
+				return $stmt;	
+			}
+			catch(PDOException $e)
+			{
+				echo $e->getMessage();
+			}				
+	}
 
-function crearComentario($conn,$usuario,$anuncio_id,$comentario)
-{
-		try
-		{
-			
-			$stmt = $conn->prepare("INSERT INTO comentarios(usr_id, anuncio_id, comentario) 
-		                                               VALUES(:usuario, :anuncio_id, :comentario)");
-												  
-			$stmt->bindparam(":usuario", $usuario);
-			$stmt->bindparam(":anuncio_id", $anuncio_id);										  
-			$stmt->bindparam(":comentario", $comentario);										  
+	function crearComentario($conn,$usuario,$anuncio_id,$comentario)
+	{
+			try
+			{
 				
-			$stmt->execute();
+				$stmt = $conn->prepare("INSERT INTO comentarios(usr_id, anuncio_id, comentario) 
+			                                               VALUES(:usuario, :anuncio_id, :comentario)");
+													  
+				$stmt->bindparam(":usuario", $usuario);
+				$stmt->bindparam(":anuncio_id", $anuncio_id);										  
+				$stmt->bindparam(":comentario", $comentario);										  
+					
+				$stmt->execute();
 
-			return $stmt;	
-		}
-		catch(PDOException $e)
-		{
-			crearLog($e->getMessage(), 'WARNING');
-			echo $e->getMessage();
-		}				
-}
+				return $stmt;	
+			}
+			catch(PDOException $e)
+			{
+				crearLog($e->getMessage(), 'WARNING');
+				echo $e->getMessage();
+			}				
+	}
 
-function editarAnuncio($conn,$titulo,$descripcion,$ciudad,$precio,$telefono,$email,$anuncio_id)
-{
-		try
-		{
-			
-			$stmt = $conn->prepare("UPDATE anuncios 
-				SET titulo=:titulo,
-				 descripcion=:descripcion,
-				 valor=:precio,
-				 ciudad=:ciudad,
-				 telefono=:telefono,
-				 email=:email
-				 WHERE anuncio_id = :anuncio_id;");
+	function editarAnuncio($conn,$titulo,$descripcion,$ciudad,$precio,$telefono,$email,$anuncio_id)
+	{
+			try
+			{
+				
+				$stmt = $conn->prepare("UPDATE anuncios 
+					SET titulo=:titulo,
+					 descripcion=:descripcion,
+					 valor=:precio,
+					 ciudad=:ciudad,
+					 telefono=:telefono,
+					 email=:email
+					 WHERE anuncio_id = :anuncio_id;");
 
-			$stmt->bindparam(":titulo", $titulo);
-			$stmt->bindparam(":descripcion", $descripcion);										  
-			$stmt->bindparam(":ciudad", $ciudad);										  
-			$stmt->bindparam(":precio", $precio);										  
-			$stmt->bindparam(":telefono", $telefono);										  
-			$stmt->bindparam(":email", $email);										  
-			$stmt->bindparam(":anuncio_id", $anuncio_id);										  
-			$stmt->execute();
+				$stmt->bindparam(":titulo", $titulo);
+				$stmt->bindparam(":descripcion", $descripcion);										  
+				$stmt->bindparam(":ciudad", $ciudad);										  
+				$stmt->bindparam(":precio", $precio);										  
+				$stmt->bindparam(":telefono", $telefono);										  
+				$stmt->bindparam(":email", $email);										  
+				$stmt->bindparam(":anuncio_id", $anuncio_id);										  
+				$stmt->execute();
 
-			return $stmt;	
-		}
-		catch(PDOException $e)
-		{
-			echo $e->getMessage();
-		}				
-}
+				return $stmt;	
+			}
+			catch(PDOException $e)
+			{
+				echo $e->getMessage();
+			}				
+	}
+	function editarUsuario($conn,$upass,$nombre,$apellido,$nacionalidad,$usr_id,$admin)
+	{
+			try
+			{
+				
+				$new_password = md5($upass);
+				$stmt = $conn->prepare("UPDATE usuarios 
+					SET nombre=:nombre,
+					 apellido=:apellido,
+					 nacionalidad=:nacionalidad,
+					 usr_pswd=:upass,
+					 isadmin=:admin
+					 WHERE usr_id = :usr_id;");
+
+				$stmt->bindparam(":nombre", $nombre);										  
+				$stmt->bindparam(":apellido", $apellido);										  
+				$stmt->bindparam(":nacionalidad", $nacionalidad);										  
+				$stmt->bindparam(":usr_id", $usr_id);	
+				$stmt->bindparam(":upass", $new_password);									  
+				$stmt->bindparam(":admin", $admin);									  
+				$stmt->execute();
+
+				return $stmt;	
+			}
+			catch(PDOException $e)
+			{
+				echo $e->getMessage();
+			}				
+	}

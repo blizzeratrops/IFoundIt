@@ -9,5 +9,5 @@
 	{
 		crearLog("El usuario con ID:".$_SESSION['user_session']. " cerro sesion.", 'INFO');
 		doLogout();
-		redirect('../index.php');
+		redirect('../login.php');
 	}

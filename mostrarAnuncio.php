@@ -66,7 +66,7 @@
               JOIN usuarios u on c.usr_id = u.usr_id
               JOIN anuncios a on c.anuncio_id = a.anuncio_id
               WHERE a.anuncio_id = :anuncio_id
-              ORDER BY fecha DESC;";
+              ORDER BY fecha;";
   $stmt = runQuery($conn, $sql);
   $stmt->execute(array(":anuncio_id"=>$anuncio_id));
   $comment_result = $stmt->fetchAll();
@@ -100,6 +100,7 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">
+              <li><a href="index.php"><span class="glyphicon glyphicon-home"></span>&nbsp;INICIO</a></li>
                 <?php
                     if (is_loggedin()!="") {
                         echo '<li><a href="profile.php"><span class="glyphicon glyphicon-user"></span>&nbsp;MI CUENTA</a></li>';
