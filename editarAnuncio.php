@@ -56,12 +56,17 @@
 				$stmt = $conn->prepare("DELETE FROM imagenes  where id_anuncio = $anuncio_id");
 				$stmt->execute();
 
+				auditoria($conn,'IMAGENES',$user_id,'DELETE');
+
 				$stmt = $conn->prepare("INSERT INTO imagenes(imagen, id_anuncio) 
 		                                               VALUES(lo_import('$uploadfile'), $anuncio_id)");
 				$stmt->execute();
+
+				auditoria($conn,'IMAGENES',$user_id,'INSERT');
 			}
 
 			crearLog("El usuario con id $user_id edito el anuncio $anuncio_id.", 'INFO');
+			auditoria($conn,'ANUNCIOS',$user_id,'UPDATE');
 			redirect('profile.php');
 		}
 

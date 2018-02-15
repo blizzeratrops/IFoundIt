@@ -13,7 +13,7 @@
 
   if ($userRow['isadmin']) {
 
-    $sql = "SELECT a.anuncio_id as id,a.titulo as titulo,a.fecha_creacion as fecha,c.c_name as ciudad,
+    $sql = "SELECT a.anuncio_id as id,a.titulo as titulo,a.fecha_creacion::timestamp(0) as fecha,c.c_name as ciudad,
               a.descripcion as descripcion,a.valor as monto,u.usr_name as usuario, a.estado as estado 
               FROM anuncios a
               JOIN ciudades c on a.ciudad = c.c_id
@@ -25,7 +25,7 @@
 
   } else {
 
-    $sql = "SELECT a.anuncio_id as id,a.titulo as titulo,a.fecha_creacion as fecha,c.c_name as ciudad,
+    $sql = "SELECT a.anuncio_id as id,a.titulo as titulo,a.fecha_creacion::timestamp(0) as fecha,c.c_name as ciudad,
           a.descripcion as descripcion,a.valor as monto,u.usr_name as usuario, a.estado as estado 
           FROM anuncios a
           JOIN ciudades c on a.ciudad = c.c_id
@@ -69,17 +69,19 @@
                   if ($userRow['isadmin']) 
                   {   
                     echo '<li class="dropdown">';
-                      echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown">REPORTES <b class="caret"></b></a>'; 
-                      echo '<ul class="dropdown-menu">';
-                        echo '<li><a href="mostrarUsuarios.php">Usuarios</a></li>';
-                        echo '<li><a href="#">Acción #2</a></li>';
-                        echo '<li><a href="#">Acción #3</a></li>';
-                        echo '<li class="divider"></li>';
-                        echo '<li><a href="#">Acción #4</a></li>';
-                        echo '<li class="divider"></li>';
-                        echo '<li><a href="#">Acción #5</a></li>';
+                      echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown">ADMINISTRACION <b class="caret"></b></a>'; 
+                      echo '<ul class="dropdown-menu" style="background-color: #e5e6e8;">';
+                        echo '<li><a href="mostrarUsuarios.php">USUARIOS</a></li>';
+                        echo '<li class="divider" style="background-color: #FFF;"></li>';
+                        echo '<li><a href="crudCiudades.php">CIUDADES</a></li>';
+                        echo '<li class="divider" style="background-color: #FFF;"></li>';
+                        echo '<li><a href="crudCategorias.php">CATEGORIAS</a></li>';
+                        echo '<li class="divider" style="background-color: #FFF;"></li>';
+                        echo '<li><a href="reportes.php?anuncios-por-calificacion">ANUNCIOS POR CALIFICACION</a></li>';
+                        echo '<li class="divider" style="background-color: #FFF;"></li>';
+                        echo '<li><a href="reportes.php?cant-anun-user">ANUNCIOS POR USUARIO</a></li>';
                       echo '</ul>';
-                    echo '</li>';
+                    echo '</li>';                    
                   } 
                 ?>
             </ul>

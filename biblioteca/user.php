@@ -93,16 +93,17 @@
 	}
 
 
-	function crearAnuncio($conn,$titulo,$descripcion,$ciudad,$precio,$telefono,$email,$user_id)
+	function crearAnuncio($conn,$titulo,$descripcion,$categoria,$ciudad,$precio,$telefono,$email,$user_id)
 	{
 			try
 			{
 				
-				$stmt = $conn->prepare("INSERT INTO anuncios(titulo, descripcion, usr, valor, moneda, ciudad, telefono, email) 
-			                                               VALUES(:titulo, :descripcion, :usr, :valor, 'G', :ciudad,  :telefono, :email)");
+				$stmt = $conn->prepare("INSERT INTO anuncios(titulo, descripcion, usr, valor, moneda, categoria, ciudad, telefono, email) 
+			                                               VALUES(:titulo, :descripcion, :usr, :valor, 'G', :categoria,:ciudad,  :telefono, :email)");
 													  
 				$stmt->bindparam(":titulo", $titulo);
 				$stmt->bindparam(":descripcion", $descripcion);										  
+				$stmt->bindparam(":categoria", $categoria);										  
 				$stmt->bindparam(":ciudad", $ciudad);										  
 				$stmt->bindparam(":valor", $precio);										  
 				$stmt->bindparam(":telefono", $telefono);										  
@@ -223,4 +224,104 @@
 				crearLog($e->getMessage(), 'WARNING');
 				echo $e->getMessage();
 			}			
+	}
+	function crearCiudad($conn,$nombre)
+	{
+		try
+			{
+				
+				$stmt = $conn->prepare("INSERT INTO ciudades(c_name) VALUES(:nombre)");
+													  
+				$stmt->bindparam(":nombre", $nombre);
+					
+				$stmt->execute();
+
+				return $stmt;	
+			}
+			catch(PDOException $e)
+			{
+				crearLog($e->getMessage(), 'WARNING');
+				echo $e->getMessage();
+			}			
+	}
+
+	function editarCiudad($conn,$nombreCiudad,$ciudad)
+	{
+			try
+			{
+				
+				$stmt = $conn->prepare("UPDATE ciudades 
+					SET c_name=:nombreCiudad
+					 WHERE c_id = :ciudad;");
+
+				$stmt->bindparam(":nombreCiudad", $nombreCiudad);										  
+				$stmt->bindparam(":ciudad", $ciudad);										  
+				$stmt->execute();
+
+				return $stmt;	
+			}
+			catch(PDOException $e)
+			{
+				echo $e->getMessage();
+			}				
+	}
+	function crearCategoria($conn,$nombre)
+	{
+		try
+			{
+				
+				$stmt = $conn->prepare("INSERT INTO categorias(nombre) VALUES(:nombre)");
+													  
+				$stmt->bindparam(":nombre", $nombre);
+					
+				$stmt->execute();
+
+				return $stmt;	
+			}
+			catch(PDOException $e)
+			{
+				crearLog($e->getMessage(), 'WARNING');
+				echo $e->getMessage();
+			}			
+	}
+
+	function editarCategoria($conn,$nombreCategoria,$id_categoria)
+	{
+			try
+			{
+				
+				$stmt = $conn->prepare("UPDATE categorias 
+					SET nombre=:nombreCategoria
+					 WHERE id_categoria = :id_categoria;");
+
+				$stmt->bindparam(":nombreCategoria", $nombreCategoria);										  
+				$stmt->bindparam(":id_categoria", $id_categoria);										  
+				$stmt->execute();
+
+				return $stmt;	
+			}
+			catch(PDOException $e)
+			{
+				echo $e->getMessage();
+			}				
+	}
+	function auditoria($conn,$tabla,$usr_id,$evento)
+	{
+		try
+		{
+			$stmt = $conn->prepare("INSERT INTO auditoria(tabla,usr_id,evento) 
+		                                               VALUES(:tabla, :usr_id, :evento)");
+												  
+			$stmt->bindparam(":tabla", $tabla);
+			$stmt->bindparam(":usr_id", $usr_id);										  
+			$stmt->bindparam(":evento", $evento);										  
+				
+			$stmt->execute();	
+			
+			return $stmt;	
+		}
+		catch(PDOException $e)
+		{
+			echo $e->getMessage();
+		}				
 	}

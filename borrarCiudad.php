@@ -4,7 +4,7 @@
     require_once("biblioteca/dbconfig.php");
 
 	$conn = conectarBD();
-    $anuncio_id = $_GET['id'];
+    $c_id = $_GET['id'];
     $usuario = $_GET['user_id'];
 
     $user_id = $_SESSION['user_session'];
@@ -16,14 +16,16 @@
     if (!$userRow['isadmin']) {
         redirect('index.php');
     }
+    
 
-    $sql = "DELETE FROM anuncios WHERE anuncio_id = :anuncio_id;";
+    $sql = "DELETE FROM ciudades WHERE c_id = :c_id;";
     $stmt = runQuery($conn, $sql);
-    $stmt->bindparam(":anuncio_id", $anuncio_id);
+    $stmt->bindparam(":c_id", $c_id);
     $stmt->execute();
 
-    crearLog("El usuario con id $usuario borro el anuncio $anuncio_id.", 'INFO');
-    auditoria($conn,'ANUNCIOS',$usuario,'DELETE');
+    crearLog("El usuario con id $usuario borro la ciudad con id $c_id.", 'INFO');
+    auditoria($conn,'CIUDADES',$usuario,'DELETE');
 
-    redirect('profile.php');
+
+    redirect('crudCiudades.php');
  ?>

@@ -52,7 +52,8 @@
 				else
 				{
 					if(register($conn,$uname,$upass,$nombre,$apellido,$nacionalidad)){
-						crearLog("Usuario $uname registrado correctamente.", 'INFO');	
+						crearLog("Usuario $uname registrado correctamente.", 'INFO');
+						auditoria($conn,'USUARIOS',0,'INSERT');	
 						redirect('sign-up.php?joined');
 					}
 				}

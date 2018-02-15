@@ -25,6 +25,7 @@
         $stmt->execute();
 
         crearLog("El usuario con id $usuario borro al usuario con id $usr_id.", 'INFO');
+        auditoria($conn,'USUARIOS',$usuario,'DELETE');
     }else{
         crearLog("Accion no permitida el usuario con id $usuario intento borrarse a si mismo.", 'WARNING');
         

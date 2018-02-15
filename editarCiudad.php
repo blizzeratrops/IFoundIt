@@ -5,7 +5,7 @@
 
 
 	$usuario = $_GET['user_id'];
-	$usr_id = $_GET['id'];
+	$ciudad = $_GET['id'];
 	$conn = conectarBD();
 
 	$user_id = $_SESSION['user_session'];
@@ -18,51 +18,33 @@
 		redirect('index.php');
 	}
 
-	$sql = "SELECT * 
-			FROM usuarios 
-			where usr_id = $usr_id";
+	$sql = "SELECT c_name
+			FROM ciudades 
+			where c_id = $ciudad";
 	$stmt = runQuery($conn,$sql);
 	$stmt->execute();
 	$row=$stmt->fetch(PDO::FETCH_ASSOC);
 
-	$uname = $row['usr_name'];
-	$nombre = $row['nombre'];
-	$apellido = $row['apellido'];
-	$nacionalidad = $row['nacionalidad'];
-	$selected = $row['isadmin'];
+	$nombreCiudad = $row['c_name'];
 
 	if(isset($_POST['btn-signup']))
 	{
 
-		$upass = strip_tags($_POST['txt_upass']);
-		$upass2 = strip_tags($_POST['txt_upass2']);
-		$nombre = strip_tags($_POST['txt_nombre']);	
-		$apellido = strip_tags($_POST['txt_apellido']);	
-		$nacionalidad = strip_tags($_POST['txt_nacionalidad']);	
-		$admin = strip_tags($_POST['admin']);	
+		$nombreCiudad = strip_tags($_POST['txt_nombre']);	
 		
-		if($upass=="")	
+		if($nombreCiudad=="")	
 		{
-			$error[] = "Debe proveer el password!";
-		}else if(strlen($upass) < 6)
-		{
-			$error[] = "El password debe tener al menos 6 caracteres!!";	
-		}else if($upass2 != $upass)
-		{
-			$error[] = "Las contraseñas no coinciden";	
+			$error[] = "Debe proveer el nombre de la ciudad!";
 		}
 		else
 		{
 			try
 			{
-				$stmt = runQuery($conn,"SELECT usr_name FROM usuarios WHERE usr_name=:uname");
-				$stmt->execute(array(':uname'=>$uname));
-				$row=$stmt->fetch(PDO::FETCH_ASSOC);
 					
-				if(editarUsuario($conn,$upass,$nombre,$apellido,$nacionalidad,$usr_id,$admin)){
-					crearLog("El usuario con id $user_id edito al usuario $usr_id","INFO");
-					auditoria($conn,'USUARIOS',$user_id,'UPDATE');
-					redirect('mostrarUsuarios.php');
+				if(editarCiudad($conn,$nombreCiudad,$ciudad)){
+					crearLog("El usuario con id $usuario edito la ciudad $nombreCiudad","INFO");
+					auditoria($conn,'CIUDADES',$usuario,'UPDATE');
+					redirect('crudCiudades.php');
 				}
 				
 			}
@@ -100,7 +82,7 @@
     </nav>
 	<h1>I Found It</h1>
     <form method="post" class="form-signin">
-        <p>Editar usuario</p><hr />
+        <p>Editar ciudad</p><hr />
         <?php
 		if(isset($error))
 		{
@@ -113,47 +95,18 @@
                  <?php
 			}
 		}
-		else if(isset($_GET['joined']))
-		{
-			 ?>
-             <div class="alert alert-info">
-                  <i class="glyphicon glyphicon-log-in"></i> &nbsp; Registro Exitoso <a href='login.php'>iniciar sesion</a> aqui
-             </div>
-             <?php
-		}
 		?>
-        <div class="form-group">
-        	<label>Usuario:</label>
-        	<label><?php echo $uname;?></label>
-        </div>
-        <div class="form-group">
-        	<input type="text" class="form-control" name="txt_nombre" placeholder="Nombre" value="<?php echo $nombre;?>" />
-        </div>
-        <div class="form-group">
-        	<input type="text" class="form-control" name="txt_apellido" placeholder="Apellido" value="<?php echo $apellido;?>" />
-        </div>
-        <div class="form-group">
-        	<input type="text" class="form-control" name="txt_nacionalidad" placeholder="Nacionalidad" value="<?php echo $nacionalidad;?>" />
-        </div>
 
         <div class="form-group">
-        	<input type="password" class="form-control" name="txt_upass" placeholder="Password" />
-        </div>        
-        <div class="form-group">
-        	<input type="password" class="form-control" name="txt_upass2" placeholder="Repetir Password" />
+        	<label style="text-align: left;">Nombre de la ciudad</label>        	
+        	<input type="text" class="form-control" name="txt_nombre" placeholder="Nombre" value="<?php echo $nombreCiudad;?>" />
         </div>
-        <div class="form-group">
-	        <select class="form-control" name="admin">
-			  <option value="1" <?php if($selected){echo("selected");}?>>Si</option>
-			  <option value="0" <?php if(!$selected){echo("selected");}?>>No</option>
-			</select>
-		</div>
         <div class="clearfix"></div><hr />
         <div class="form-group">
         	<button type="submit" class="btn btn-default" name="btn-signup">
             	<i class="glyphicon glyphicon-open-file"></i>&nbsp;ACEPTAR
             </button>
-            <a href="mostrarUsuarios.php">
+            <a href="crudCiudades.php">
 	            <button type="button" class="btn btn-default" name="btn-cancelar">
 	            	<i class="glyphicon glyphicon-remove"></i>&nbsp;Cancelar
 	            </button>            	

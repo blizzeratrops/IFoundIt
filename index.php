@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once("biblioteca/user.php");
+require_once('biblioteca/dbconfig.php');
 
 ?>
 <!DOCTYPE html>
@@ -27,6 +28,14 @@ require_once("biblioteca/user.php");
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+        </div>
+        <div class="navbar-header">
+            <?php 
+                /*$url = "http://www.webservicex.net/ConvertComputer.asmx?WSDL";
+                $client = new SoapClient($url);
+                $res = $client->ChangeComputerUnit(array('ComputerValue' => '1024', 'fromComputerUnit' => 'Megabyte', 'toComputerUnit' => 'Gigabyte'));
+                print_r($res);*/
+            ?>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">
@@ -57,6 +66,19 @@ require_once("biblioteca/user.php");
             <div class="input-group-btn">
                 <a href="crearAnuncio.php"><button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Crear Anuncio</button></a>
             </div>
+        </div>
+        <div class="form-group"  style="text-align: left;">
+            <label>Categoria</label>
+            <select class="form-control" name="txt_categoria">
+                <?php
+                    $conn = conectarBD();
+                    $stmt = $conn->prepare("SELECT id_categoria, nombre FROM categorias");
+                    $stmt->execute();                   
+                    while($row=$stmt->fetch(PDO::FETCH_ASSOC)){                                                 
+                       echo '<option value="'.$row['id_categoria'].'">'.$row['nombre'].'</option>';
+                    }
+                ?>
+            </select>
         </div>
     </form>
 </div>

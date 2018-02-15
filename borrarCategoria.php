@@ -1,10 +1,10 @@
 <?php 
-	session_start();
+    session_start();
     require_once("biblioteca/user.php");
     require_once("biblioteca/dbconfig.php");
 
-	$conn = conectarBD();
-    $anuncio_id = $_GET['id'];
+    $conn = conectarBD();
+    $id_categoria = $_GET['id'];
     $usuario = $_GET['user_id'];
 
     $user_id = $_SESSION['user_session'];
@@ -16,14 +16,15 @@
     if (!$userRow['isadmin']) {
         redirect('index.php');
     }
+    
 
-    $sql = "DELETE FROM anuncios WHERE anuncio_id = :anuncio_id;";
+    $sql = "DELETE FROM categorias WHERE id_categoria = :id_categoria;";
     $stmt = runQuery($conn, $sql);
-    $stmt->bindparam(":anuncio_id", $anuncio_id);
+    $stmt->bindparam(":id_categoria", $id_categoria);
     $stmt->execute();
 
-    crearLog("El usuario con id $usuario borro el anuncio $anuncio_id.", 'INFO');
-    auditoria($conn,'ANUNCIOS',$usuario,'DELETE');
+    crearLog("El usuario con id $usuario borro la ciudad con id $id_categoria.", 'INFO');
+    auditoria($conn,'CATEGORIAS',$usuario,'DELETE');
 
-    redirect('profile.php');
+    redirect('crudCategorias.php');
  ?>

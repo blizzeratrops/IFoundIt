@@ -2,7 +2,7 @@
 require_once('dbconfig.php');
 require_once('user.php');
 
-function search($query){
+function search($query,$categoria){
 
     $conn = conectarBD();
 
@@ -11,13 +11,14 @@ function search($query){
     $words = explode(" ", $query);
     $query = implode(" & ", $words);
 
-    $sql = "SELECT a.anuncio_id as id,a.titulo as titulo,a.fecha_creacion as fecha,c.c_name as ciudad,
+    $sql = "SELECT a.anuncio_id as id,a.titulo as titulo,a.fecha_creacion::timestamp(0) as fecha,c.c_name as ciudad,
             a.descripcion as descripcion,a.valor as monto,u.usr_name as usuario 
             FROM anuncios a
             JOIN ciudades c on a.ciudad = c.c_id
             JOIN usuarios u on a.usr = u.usr_id
             WHERE to_tsvector(titulo || '. ' || descripcion) @@ to_tsquery('$query')
-            and a.estado = 1
+            AND a.estado = 1
+            AND a.categoria = $categoria
             ORDER BY fecha DESC;";
 
     $stmt = runQuery($conn, $sql);

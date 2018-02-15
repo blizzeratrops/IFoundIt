@@ -7,8 +7,9 @@ if( isset($_GET['buscar']) )
 {
     //be sure to validate and clean your variables
     $texto = htmlentities($_GET['busqueda']);
+    $categoria = htmlentities($_GET['txt_categoria']);
     //then you can use them in a PHP function. 
-	$search_results = search($texto);	
+	$search_results = search($texto, $categoria);	
 }
 ?>
 
@@ -64,8 +65,21 @@ if( isset($_GET['buscar']) )
                 <button type="submit" class="btn btn-danger" name="buscar"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Buscar</button>
             </div>            
             <div class="input-group-btn">
-                <a href="biblioteca/crearAnuncio.php"><button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Crear Anuncio</button></a>
+                <a href="crearAnuncio.php"><button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Crear Anuncio</button></a>
             </div>
+        </div>
+        <div class="form-group"  style="text-align: left;">
+            <label>Categoria</label>
+            <select class="form-control" name="txt_categoria">
+                <?php
+                    $conn = conectarBD();
+                    $stmt = $conn->prepare("SELECT id_categoria, nombre FROM categorias");
+                    $stmt->execute();                   
+                    while($row=$stmt->fetch(PDO::FETCH_ASSOC)){                                                 
+                       echo '<option value="'.$row['id_categoria'].'">'.$row['nombre'].'</option>';
+                    }
+                ?>
+            </select>
         </div>
     </form>
 </div>
@@ -76,10 +90,10 @@ if( isset($_GET['buscar']) )
 			echo "<table class='table table-hover'>";
 				echo "<tr>";
 					echo "<td> Titulo </td>";
-					echo "<td> Fecha </td>";
-					echo "<td> Ciudad </td>";
 					echo "<td> Descripcion </td>";
 					echo "<td> Monto </td>";
+                    echo "<td> Ciudad </td>";
+                    echo "<td> Fecha </td>";
 					echo "<td> Usuario </td>";
 				echo "</tr>";
 
@@ -87,10 +101,10 @@ if( isset($_GET['buscar']) )
 				
 				echo "<tr>";
 					echo "<td>".$row['titulo']."</td>";
-					echo "<td>".$row['fecha']."</td>";
-					echo "<td>".$row['ciudad']."</td>";
 					echo "<td>".$row['descripcion']."</td>";
 					echo "<td>".$row['monto']."</td>";
+                    echo "<td>".$row['ciudad']."</td>";
+                    echo "<td>".$row['fecha']."</td>";
                     echo "<td>".$row['usuario']."</td>";
 					echo '<td><a href="mostrarAnuncio.php?id='. $row['id'] .'">Detalles</a></td>';
 

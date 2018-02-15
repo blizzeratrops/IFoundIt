@@ -14,17 +14,23 @@
 
   //seleccionar datos del anuncio
   $_SESSION['anuncio_id'] = $anuncio_id;
-  $sql = "SELECT a.anuncio_id as id,a.titulo as titulo,a.fecha_creacion as fecha,c.c_name as ciudad,
-            a.descripcion as descripcion,a.valor as monto,u.usr_name as usuario, a.telefono as telefono, a.email as email, a.moneda as moneda 
+  $sql = "SELECT a.anuncio_id as id,a.titulo as titulo,a.fecha_creacion::timestamp(0) as fecha,c.c_name as ciudad,
+            a.descripcion as descripcion,a.valor as monto,u.usr_name as usuario, a.telefono as telefono, a.email as email, a.moneda as moneda, ca.nombre as categoria 
             FROM anuncios a
             JOIN ciudades c on a.ciudad = c.c_id
             JOIN usuarios u on a.usr = u.usr_id
+            JOIN categorias ca on a.categoria = ca.id_categoria
             WHERE a.anuncio_id = :anuncio_id
             ORDER BY fecha DESC;";
   $stmt = runQuery($conn, $sql);
   $stmt->execute(array(":anuncio_id"=>$anuncio_id));
   $search_results = $stmt->fetch(PDO::FETCH_ASSOC);
 
+  /*seleccionamos el promedio de calificaciones*/
+  $sql = "SELECT round( CAST(avg(calificacion) as numeric), 2) as calificacion from calificaciones where anuncio_id = :anuncio_id";
+  $stmt = runQuery($conn, $sql);
+  $stmt->execute(array(":anuncio_id"=>$anuncio_id));
+  $result_calificacion = $stmt->fetch(PDO::FETCH_ASSOC);
 
 //seleccionar imagenes del anuncio
 
@@ -40,7 +46,16 @@
     $usuario = $_SESSION['user_session'];
     $comentario = strip_tags($_POST['txt_comentario']);
     $anuncio_id = strip_tags($_POST['anuncio_id']);
-    $isreport = strip_tags($_POST['isreport']);
+
+    if (isset($_POST['isreport'])) 
+    {
+
+      $isreport = strip_tags($_POST['isreport']);
+    
+    } else {
+      $isreport = 0;
+    }
+    
     
     if(!$comentario || trim($comentario)=="")  
     {
@@ -75,7 +90,7 @@
       }
   }     
   //seleccionar comentarios del anuncio
-  $sql = "SELECT u.nombre || ' ' || u.apellido as usuario ,c.comentario as comentario, c.fecha_comentario as fecha 
+  $sql = "SELECT u.nombre || ' ' || u.apellido as usuario ,c.comentario as comentario, c.fecha_comentario::timestamp(0) as fecha 
               FROM comentarios c
               JOIN usuarios u on c.usr_id = u.usr_id
               JOIN anuncios a on c.anuncio_id = a.anuncio_id
@@ -147,12 +162,17 @@
           echo "<td> Usuario </td>";
           echo "<td> Titulo </td>";
           echo "<td> Descripcion </td>";
+          echo "<td> Categoria </td>";
           echo "<td> Moneda </td>";
           echo "<td> Monto </td>";
           echo "<td> Ciudad </td>";
           echo "<td> Fecha </td>";
           echo "<td> Telefono </td>";
           echo "<td> Email </td>";
+          if ($result_calificacion) 
+          {
+            echo "<td> Calificacion </td>";
+          }
         echo "</tr>";
 
         
@@ -160,12 +180,18 @@
           echo "<td>".$search_results['usuario']."</td>";
           echo "<td>".$search_results['titulo']."</td>";
           echo "<td>".$search_results['descripcion']."</td>";
+          echo "<td>".$search_results['categoria']."</td>";
           echo "<td>".$search_results['moneda']."</td>";
           echo "<td>".$search_results['monto']."</td>";
           echo "<td>".$search_results['ciudad']."</td>";
           echo "<td>".$search_results['fecha']."</td>";
           echo "<td>".$search_results['telefono']."</td>";
           echo "<td>".$search_results['email']."</td>";
+          
+          if ($result_calificacion) 
+          {
+            echo "<td>".$result_calificacion['calificacion']."</td>";
+          }
 
         echo "</tr>";
       echo "</table>";
@@ -212,15 +238,24 @@ if ($comment_result) {
 <div class="container text-center">
 <?php 
 
-  if(is_loggedin()!="")
+  if(is_loggedin())
     {
       $user_id = $_SESSION['user_session']; 
+      /*buscamos si el usuario ya califico este anuncio*/
       $stmt = runQuery($conn,"SELECT * FROM calificaciones WHERE user_id=:user_id AND anuncio_id = :anuncio_id");
       $stmt->bindparam(":user_id", $user_id);                     
       $stmt->bindparam(":anuncio_id", $anuncio_id);                     
         
       $stmt->execute(); 
       $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
+
+      /*buscamos si el usuario ya reporto el anuncio*/
+      $stmt = runQuery($conn,"SELECT * FROM comentarios WHERE usr_id=:user_id AND anuncio_id = :anuncio_id AND isreport = 1");
+      $stmt->bindparam(":user_id", $user_id);                     
+      $stmt->bindparam(":anuncio_id", $anuncio_id);                     
+        
+      $stmt->execute(); 
+      $reported=$stmt->fetch(PDO::FETCH_ASSOC);
       if(isset($error))
       {
         foreach($error as $error)
@@ -235,6 +270,10 @@ if ($comment_result) {
       echo'<div class="container">';
         echo'<form method="post" class="form-signin">';
         ?>
+        <?php 
+            if (!$reported) 
+            {
+          ?>
           <div class="form-group">
             <label style="float: left;">Reportar anuncio?</label>
             <select class="form-control" name="isreport" style="float: right; width: 60%;">
@@ -245,6 +284,7 @@ if ($comment_result) {
           <br>
           <hr style="clear: both;">
           <?php 
+            }
             if (!$userRow) 
             {
           ?>

@@ -1,7 +1,7 @@
 <?php
   require_once("biblioteca/session.php");
-	require_once("biblioteca/user.php");
-	require_once("biblioteca/dbconfig.php");
+  require_once("biblioteca/user.php");
+  require_once("biblioteca/dbconfig.php");
 
   if(!is_loggedin())
   {
@@ -19,8 +19,39 @@
     redirect('index.php');
   }
 
-  //seleccionar datos de usuarios
-  $sql = "SELECT * FROM usuarios";
+    if(isset($_POST['btn-publicar']))
+  {
+
+    $nombre = strip_tags($_POST['txt_nombre']);
+    
+    if($nombre=="") 
+    {
+      $error[] = "Debe ingresar el nombre de la categoria!"; 
+    }
+    else
+    {
+      try
+      {
+        $user_id = $_SESSION['user_session'];
+        $conn = conectarBD();
+        if(crearcategoria($conn,$nombre)){      
+          
+          crearLog("El usuario con id $user_id creo una categoria.", 'INFO');
+          auditoria($conn,'CATEGORIAS',$user_id,'INSERT');
+
+        }
+  
+      }
+      catch(PDOException $e)
+      {
+        crearLog($e->getMessage(), 'WARNING');
+        echo $e->getMessage();
+      }
+    } 
+  }
+
+  //seleccionar datos de categorias
+  $sql = "SELECT * FROM categorias";
   $stmt = runQuery($conn, $sql);
   $stmt->execute();
   $search_results = $stmt->fetchAll();  
@@ -71,7 +102,7 @@
                         echo '<li><a href="reportes.php?cant-anun-user">ANUNCIOS POR USUARIO</a></li>';
                       echo '</ul>';
                     echo '</li>';
-                  } 
+                   } 
                 ?>
             </ul>
 
@@ -80,7 +111,7 @@
 
 <div class="jumbotron text-center">
   <hr />
-      <h2>Lista de usuarios</h2>
+      <h2>Lista de categorias</h2>
   <hr />
 </div>
 
@@ -90,28 +121,48 @@
     if ($search_results) {
       echo "<table class='table table-hover'>";
         echo "<tr>";
-          echo "<td> Usuario </td>";
+          echo "<td> Id Categoria </td>";
           echo "<td> Nombre </td>";
-          echo "<td> Apellido </td>";
-          echo "<td> Nacionalidad </td>";
-          echo "<td> Es administrador </td>";
         echo "</tr>";
 
       foreach ($search_results as $row) 
       {
           echo "<tr>";
-            echo "<td>".$row['usr_name']."</td>";
+            echo "<td>".$row['id_categoria']."</td>";
             echo "<td>".$row['nombre']."</td>";
-            echo "<td>".$row['apellido']."</td>";
-            echo "<td>".$row['nacionalidad']."</td>";
-            echo "<td>".$row['isadmin']."</td>";
-            echo '<td><a href="editarUsuario.php?id='. $row['usr_id'] .'&user_id='."$user_id".'">Editar</a></td>';
-            echo '<td><a href="borrarUsuario.php?id='. $row['usr_id'] .'&user_id='."$user_id".'">Borrar</a></td>';
+            echo '<td><a href="editarCategoria.php?id='. $row['id_categoria'] .'&user_id='."$user_id".'">Editar</a></td>';
+            echo '<td><a href="borrarCategoria.php?id='. $row['id_categoria'] .'&user_id='."$user_id".'">Borrar</a></td>';
     
           echo "</tr>";
       }
-        echo "</table>";
     }
    ?>
+   <form method="post" class="form-signin">
+        <p>Agregar categoria</p><hr />
+        <?php
+    if(isset($error))
+    {
+      foreach($error as $error)
+      {
+         ?>
+                 <div class="alert alert-danger">
+                    <i class="glyphicon glyphicon-warning-sign"></i> &nbsp; <?php echo $error; ?>
+                 </div>
+                 <?php
+      }
+    }
+    ?>
+        <div class="form-group">
+          <input type="text" class="form-control" name="txt_nombre" placeholder="Nombre ciudad" value="<?php if(isset($error)){echo $titulo;}?>" />
+        </div>
+      <div class="clearfix"></div><hr />
+        <div class="form-group">
+          <button type="submit" class="btn btn-default" name="btn-publicar">
+              <i class="glyphicon glyphicon-plus"></i>&nbsp;Agregar Categoria
+            </button>
+          <br />
+        </div>
+    </form>
+  </div>
 </body>
 </html>

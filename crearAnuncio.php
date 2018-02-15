@@ -13,6 +13,7 @@
 
 		$titulo = strip_tags($_POST['txt_titulo']);
 		$descripcion = strip_tags($_POST['txt_descripcion']);
+		$categoria = strip_tags($_POST['txt_categoria']);	
 		$ciudad = strip_tags($_POST['txt_ciudad']);	
 		$precio = strip_tags($_POST['txt_precio']);	
 		$telefono = strip_tags($_POST['txt_telefono']);	
@@ -41,8 +42,10 @@
 			{
 				$user_id = $_SESSION['user_session'];
 				$conn = conectarBD();
-				if(crearAnuncio($conn,$titulo,$descripcion,$ciudad,$precio,$telefono,$email,$user_id)){
+				if(crearAnuncio($conn,$titulo,$descripcion,$categoria,$ciudad,$precio,$telefono,$email,$user_id)){
 					
+					auditoria($conn,'ANUNCIOS',$user_id,'INSERT');
+
 					$stmt = runQuery($conn,"SELECT anuncio_id FROM anuncios order by anuncio_id desc limit 1");
 					$stmt->execute();
 					$row=$stmt->fetch(PDO::FETCH_ASSOC);
@@ -57,6 +60,7 @@
 						$stmt = $conn->prepare("INSERT INTO imagenes(imagen, id_anuncio) 
 				                                               VALUES(lo_import('$uploadfile'), $id_anuncio)");
 						$stmt->execute();
+						auditoria($conn,'IMAGENES',$user_id,'INSERT');
 					}
 
 					crearLog("El usuario con id $user_id creo un anuncio.", 'INFO');
@@ -118,8 +122,21 @@
         <div class="form-group">
         	<input type="text" class="form-control" name="txt_descripcion" placeholder="Descripcion" value="<?php if(isset($error)){echo $descripcion;}?>" />
         </div>
-        <div class="form-group"  style="text-align: left;>
-        	<label">Ciudad</label>
+        <div class="form-group"  style="text-align: left;">
+        	<label>Categoria</label>
+        	<select class="form-control" name="txt_categoria">
+				<?php
+					$conn = conectarBD();
+					$stmt = $conn->prepare("SELECT id_categoria, nombre FROM categorias");
+					$stmt->execute();					
+				    while($row=$stmt->fetch(PDO::FETCH_ASSOC)){                                                 
+				       echo '<option value="'.$row['id_categoria'].'">'.$row['nombre'].'</option>';
+				    }
+				?>
+			</select>
+        </div>
+        <div class="form-group"  style="text-align: left;">
+        	<label>Ciudad</label>
         	<select class="form-control" name="txt_ciudad">
 				<?php
 					$conn = conectarBD();
@@ -152,7 +169,5 @@
         	<br />
         </div>
     </form>
-   </div>
-
 </body>
 </html>
