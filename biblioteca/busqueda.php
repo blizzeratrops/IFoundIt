@@ -9,7 +9,7 @@ function search($query,$categoria){
     $query = trim($query);
 
     $words = explode(" ", $query);
-    $query = implode(" & ", $words);
+    $query = implode(" | ", $words);
 
     $sql = "SELECT a.anuncio_id as id,a.titulo as titulo,a.fecha_creacion::timestamp(0) as fecha,c.c_name as ciudad,
             a.descripcion as descripcion,a.valor as monto,u.usr_name as usuario 

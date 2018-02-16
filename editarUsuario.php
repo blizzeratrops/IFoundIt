@@ -122,17 +122,20 @@
              <?php
 		}
 		?>
-        <div class="form-group">
+        <div class="form-group" style="text-align: left;">
         	<label>Usuario:</label>
         	<label><?php echo $uname;?></label>
         </div>
-        <div class="form-group">
+        <div class="form-group" style="text-align: left;">
+        	<label>Nombre</label>
         	<input type="text" class="form-control" name="txt_nombre" placeholder="Nombre" value="<?php echo $nombre;?>" />
         </div>
-        <div class="form-group">
+        <div class="form-group" style="text-align: left;">
+        	<label>Apellido</label>
         	<input type="text" class="form-control" name="txt_apellido" placeholder="Apellido" value="<?php echo $apellido;?>" />
         </div>
-        <div class="form-group">
+        <div class="form-group" style="text-align: left;">
+        	<label>Nacionalidad</label>
         	<input type="text" class="form-control" name="txt_nacionalidad" placeholder="Nacionalidad" value="<?php echo $nacionalidad;?>" />
         </div>
 
@@ -142,7 +145,8 @@
         <div class="form-group">
         	<input type="password" class="form-control" name="txt_upass2" placeholder="Repetir Password" />
         </div>
-        <div class="form-group">
+        <div class="form-group" style="text-align: left;">
+        	<label>Es administrador</label>
 	        <select class="form-control" name="admin">
 			  <option value="1" <?php if($selected){echo("selected");}?>>Si</option>
 			  <option value="0" <?php if(!$selected){echo("selected");}?>>No</option>

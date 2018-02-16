@@ -15,9 +15,9 @@
 	$stmt->execute(array(":user_id"=>$user_id));
 	$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
 
-	if (!$userRow['isadmin']) {
+	/*if (!$userRow['isadmin']) {
 		redirect('index.php');
-	}
+	}*/
 
 	$sql = "SELECT a.titulo as titulo, a.descripcion as descripcion, a.ciudad as ciudad, a.valor as monto, a.telefono as telefono, a.email as email 
 			FROM anuncios a 
